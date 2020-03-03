@@ -144,6 +144,7 @@ public interface BaseApplicationComponent {
     RemoteAnnouncementsDAO getRemoteAnnouncementsDAO();
     CacheAnnouncementsDAO getCacheAnnouncementsDAO();
     Retrofit provideRetrofit();
+    Retrofit provideRetrofit2();
     SqlBrite provideSqlBrite();
 
 

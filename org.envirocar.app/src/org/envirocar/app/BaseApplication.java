@@ -45,6 +45,7 @@ import org.envirocar.core.logging.Logger;
 import org.envirocar.core.util.Util;
 import org.envirocar.remote.service.AnnouncementsService;
 import org.envirocar.remote.service.CarService;
+import org.envirocar.remote.service.CarServiceNew;
 import org.envirocar.remote.service.EnviroCarService;
 import org.envirocar.remote.service.FuelingService;
 import org.envirocar.remote.service.TermsOfUseService;
@@ -74,6 +75,8 @@ public class BaseApplication extends Application {
     protected TrackService trackService;
     @Inject
     protected TermsOfUseService termsOfUseService;
+    @Inject
+    CarServiceNew carServiceNew;
     @Inject
     protected FuelingService fuelingService;
     @Inject
@@ -110,6 +113,7 @@ public class BaseApplication extends Application {
         EnviroCarService.setTermsOfUseService(termsOfUseService);
         EnviroCarService.setTrackService(trackService);
         EnviroCarService.setUserService(userService);
+        EnviroCarService.setCarServiceNew(carServiceNew);
         NotificationHandler.context = context;
 
         // Initialize ACRA

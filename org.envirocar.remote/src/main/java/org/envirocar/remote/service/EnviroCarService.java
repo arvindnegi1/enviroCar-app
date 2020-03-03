@@ -38,6 +38,8 @@ public class EnviroCarService {
 
     protected static AnnouncementsService announcementsService;
 
+    protected static CarServiceNew carServiceNew;
+
     @Deprecated
     public static UserService getUserService() {
         return userService;
@@ -52,6 +54,9 @@ public class EnviroCarService {
     public static TrackService getTrackService() {
         return trackService;
     }
+
+    @Deprecated
+    public static CarServiceNew getCarServiceNew() { return carServiceNew; }
 
     @Deprecated
     public static TermsOfUseService getTermsOfUseService() {
@@ -82,6 +87,10 @@ public class EnviroCarService {
 
     public static void setTermsOfUseService(TermsOfUseService termsOfUseService) {
         EnviroCarService.termsOfUseService = termsOfUseService;
+    }
+
+    public static void setCarServiceNew(CarServiceNew carServiceNew) {
+        EnviroCarService.carServiceNew = carServiceNew;
     }
 
     public static void setFuelingService(FuelingService fuelingService) {

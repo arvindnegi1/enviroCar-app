@@ -67,11 +67,6 @@ public class RemoteModule {
 
     @Provides
     @Singleton
-    protected HttpUrl provideBaseUrlnew() {
-        return URL_ENVIROCAR_BASE_NEW;
-    }
-    @Provides
-    @Singleton
     protected OkHttpClient provideOkHttpClient(AuthenticationInterceptor authInterceptor,
                                                JsonContentTypeInterceptor jsonInterceptor,
                                                LanguageHeaderInterceptor languageInterceptor) {
