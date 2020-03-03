@@ -45,6 +45,7 @@ import okhttp3.OkHttpClient;
 @Module(includes = {RetrofitModule.class, SerializationModule.class})
 public class RemoteModule {
     public static HttpUrl URL_ENVIROCAR_BASE = HttpUrl.parse(EnviroCarService.BASE_URL);
+    public static HttpUrl URL_ENVIROCAR_BASE_NEW = HttpUrl.parse(EnviroCarService.BASE_URL_NEW);
 
     /**
      * Provides the InternetAccessProivder.
@@ -64,6 +65,11 @@ public class RemoteModule {
         return URL_ENVIROCAR_BASE;
     }
 
+    @Provides
+    @Singleton
+    protected HttpUrl provideBaseUrlnew() {
+        return URL_ENVIROCAR_BASE_NEW;
+    }
     @Provides
     @Singleton
     protected OkHttpClient provideOkHttpClient(AuthenticationInterceptor authInterceptor,
