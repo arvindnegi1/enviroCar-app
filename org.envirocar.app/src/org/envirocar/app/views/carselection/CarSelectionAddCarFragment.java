@@ -21,6 +21,7 @@ package org.envirocar.app.views.carselection;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +51,8 @@ import org.envirocar.app.BaseApplicationComponent;
 import org.envirocar.app.views.utils.ECAnimationUtils;
 import org.envirocar.core.entity.Car;
 import org.envirocar.core.entity.CarImpl;
+import org.envirocar.core.entity.Manufacturer;
+import org.envirocar.core.exception.DataRetrievalFailureException;
 import org.envirocar.core.logging.Logger;
 
 import java.util.AbstractList;
@@ -197,10 +201,29 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         fueltypeText.setOnItemClickListener((parent, view14, position, id) -> requestNextTextfieldFocus(fueltypeText));
 
         dispatchRemoteSensors();
+        showManufacturer();
 
         initFocusChangedListener();
         initWatcher();
         return view;
+    }
+
+    private void showManufacturer() {
+        List<Manufacturer> manufacturers = null;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        try {
+           manufacturers = daoProvider.getSensorNewDAO().getAllManufacturer();
+        } catch (DataRetrievalFailureException e) {
+            e.printStackTrace();
+        }
+        String s="";
+        if(manufacturers!=null)
+        for(Manufacturer manufacturer :manufacturers) {
+            s+=manufacturer.getHsn();
+        }
+        Toast.makeText(getContext(),""+s,Toast.LENGTH_SHORT).show();
     }
 
     @Override

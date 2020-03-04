@@ -50,7 +50,6 @@ public class RetrofitModule {
 
     @Provides
     @Singleton
-    @Named("Retrofit1")
     protected Retrofit provideRetrofit(HttpUrl baseUrl, OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .client(client)
@@ -62,60 +61,49 @@ public class RetrofitModule {
 
     @Provides
     @Singleton
-    @Named("Retrofit2")
-    protected Retrofit provideRetrofit2(HttpUrl baseUrl, OkHttpClient client, Gson gson) {
-        return new Retrofit.Builder()
-                .client(client)
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-    }
-    @Provides
-    @Singleton
-    protected UserService provideUserService(@Named("Retrofit1")Retrofit retrofit) {
+    protected UserService provideUserService(Retrofit retrofit) {
         return retrofit.create(UserService.class);
     }
 
     @Provides
     @Singleton
-    protected CarService provideCarService(@Named("Retrofit1")Retrofit retrofit) {
+    protected CarService provideCarService(Retrofit retrofit) {
         return retrofit.create(CarService.class);
     }
 
     @Provides
     @Singleton
-    protected TrackService provideTrackService(@Named("Retrofit1")Retrofit retrofit) {
+    protected TrackService provideTrackService(Retrofit retrofit) {
         return retrofit.create(TrackService.class);
     }
 
     @Provides
     @Singleton
-    protected CarServiceNew provideCarServiceNew(@Named("Retrofit2")Retrofit retrofit) {
+    protected CarServiceNew provideCarServiceNew(Retrofit retrofit) {
         return retrofit.create(CarServiceNew.class);
     }
 
     @Provides
     @Singleton
-    protected TermsOfUseService provideTermsOfUseService(@Named("Retrofit1")Retrofit retrofit) {
+    protected TermsOfUseService provideTermsOfUseService(Retrofit retrofit) {
         return retrofit.create(TermsOfUseService.class);
     }
 
     @Provides
     @Singleton
-    protected FuelingService provideFuelingService(@Named("Retrofit1")Retrofit retrofit) {
+    protected FuelingService provideFuelingService(Retrofit retrofit) {
         return retrofit.create(FuelingService.class);
     }
 
     @Provides
     @Singleton
-    protected AnnouncementsService provideAnnouncementService(@Named("Retrofit1")Retrofit retrofit) {
+    protected AnnouncementsService provideAnnouncementService(Retrofit retrofit) {
         return retrofit.create(AnnouncementsService.class);
     }
 
     @Provides
     @Singleton
-    protected PrivacyStatementService providePrivacyStatement(@Named("Retrofit1")Retrofit retrofit) {
+    protected PrivacyStatementService providePrivacyStatement(Retrofit retrofit) {
         return retrofit.create(PrivacyStatementService.class);
     }
 

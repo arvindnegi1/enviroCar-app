@@ -65,6 +65,7 @@ import org.envirocar.remote.dao.CacheTrackDAO;
 import org.envirocar.remote.dao.CacheUserDAO;
 import org.envirocar.remote.dao.RemoteAnnouncementsDAO;
 import org.envirocar.remote.dao.RemoteCarDAO;
+import org.envirocar.remote.dao.RemoteCarNewDAO;
 import org.envirocar.remote.dao.RemoteFuelingDAO;
 import org.envirocar.remote.dao.RemotePrivacyStatementDAO;
 import org.envirocar.remote.dao.RemoteTermsOfUseDAO;
@@ -128,6 +129,8 @@ public interface BaseApplicationComponent {
     RecordingScreenComponent plus(RecordingScreenModule module);
 
     // injection getter
+    RemoteCarNewDAO getRemoteCarNewDAO();
+
     CacheCarDAO getCacheCarDAO();
     RemoteCarDAO getRemoteCarDAO();
     RemoteTrackDAO getRemoteTrackDAO();

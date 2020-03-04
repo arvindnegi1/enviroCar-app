@@ -26,6 +26,7 @@ import org.envirocar.core.CacheDirectoryProvider;
 import org.envirocar.core.InternetAccessProvider;
 import org.envirocar.core.dao.AnnouncementDAO;
 import org.envirocar.core.dao.CarDAO;
+import org.envirocar.core.dao.CarNewDAO;
 import org.envirocar.core.dao.FuelingDAO;
 import org.envirocar.core.repository.PrivacyStatementRepository;
 import org.envirocar.core.repository.TermsOfUseRepository;
@@ -33,6 +34,7 @@ import org.envirocar.core.dao.TrackDAO;
 import org.envirocar.core.dao.UserDAO;
 import org.envirocar.core.dao.UserStatisticsDAO;
 import org.envirocar.remote.dao.CacheCarDAO;
+import org.envirocar.remote.dao.RemoteCarNewDAO;
 
 import javax.inject.Inject;
 
@@ -77,6 +79,10 @@ public class DAOProvider {
             return baseApplicationComponent.getRemoteCarDAO();
         }
         return cacheSensorDao;
+    }
+
+    public CarNewDAO getSensorNewDAO() {
+        return baseApplicationComponent.getRemoteCarNewDAO();
     }
 
     /**
