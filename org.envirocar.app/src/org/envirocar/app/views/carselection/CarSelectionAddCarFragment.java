@@ -54,6 +54,8 @@ import org.envirocar.core.entity.CarImpl;
 import org.envirocar.core.entity.Manufacturer;
 import org.envirocar.core.exception.DataRetrievalFailureException;
 import org.envirocar.core.logging.Logger;
+import org.envirocar.remote.service.CarServiceNew;
+import org.envirocar.remote.service.EnviroCarService;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -136,6 +138,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
+    String s="";
 
 
     @Nullable
@@ -200,7 +203,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         yearText.setOnItemClickListener((parent, view13, position, id) -> requestNextTextfieldFocus(yearText));
         fueltypeText.setOnItemClickListener((parent, view14, position, id) -> requestNextTextfieldFocus(fueltypeText));
 
-        dispatchRemoteSensors();
+       // dispatchRemoteSensors();
         showManufacturer();
 
         initFocusChangedListener();
@@ -209,21 +212,59 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     }
 
     private void showManufacturer() {
-        List<Manufacturer> manufacturers = null;
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        disposables.add(daoProvider.getSensorNewDAO()
+                .getAllManufactureObservable()
+                .toFlowable(BackpressureStrategy.BUFFER)
+                .onBackpressureBuffer(10000)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .toObservable()
+                .subscribeWith(new DisposableObserver<List<Manufacturer>>() {
 
-        StrictMode.setThreadPolicy(policy);
-        try {
-           manufacturers = daoProvider.getSensorNewDAO().getAllManufacturer();
-        } catch (DataRetrievalFailureException e) {
-            e.printStackTrace();
-        }
-        String s="";
-        if(manufacturers!=null)
-        for(Manufacturer manufacturer :manufacturers) {
-            s+=manufacturer.getHsn();
-        }
-        Toast.makeText(getContext(),""+s,Toast.LENGTH_SHORT).show();
+                    @Override
+                    protected void onStart() {
+                        LOG.info("onStart() download sensors");
+                        downloadView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(),"Successful"+s,Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        mainThreadWorker.schedule(() -> {
+                           dispose();
+
+                            downloadView.setVisibility(View.INVISIBLE);
+                        });
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                       getActivity().runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                           }
+                       });
+
+                    }
+
+                    @Override
+                    public void onNext(List<Manufacturer> manufacturers) {
+                        for (Manufacturer manufacturer : manufacturers) {
+                            if (manufacturer != null)
+                                s+=manufacturer.getHsn()+"\n";
+
+                        }
+                    }
+                }));
+
     }
 
     @Override
