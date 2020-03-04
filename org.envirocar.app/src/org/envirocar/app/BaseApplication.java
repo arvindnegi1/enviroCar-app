@@ -76,7 +76,7 @@ public class BaseApplication extends Application {
     @Inject
     protected TermsOfUseService termsOfUseService;
     @Inject
-    CarServiceNew carServiceNew;
+    protected CarServiceNew carServiceNew;
     @Inject
     protected FuelingService fuelingService;
     @Inject

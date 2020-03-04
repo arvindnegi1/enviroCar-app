@@ -24,7 +24,7 @@ package org.envirocar.remote.service;
  */
 public class EnviroCarService {
     public static final String BASE_URL = "https://envirocar.org/api/stable/";
-    public static final String BASE_URL_NEW = "http://processing.envirocar.org/vehicles/";
+    public static final String BASE_URL_NEW= "http://processing.envirocar.org/vehicles/";
 
     protected static UserService userService;
 

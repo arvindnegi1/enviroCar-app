@@ -32,7 +32,6 @@ public class RemoteCarNewDAO extends BaseRemoteDAO<CacheCarDAO, CarServiceNew> i
     }
 
     public List<Manufacturer> getAllManufacturer() throws DataRetrievalFailureException {
-        remoteService.newCarServiceUrl(EnviroCarService.BASE_URL_NEW);
         Call<List<Manufacturer>> manufacturerCall = remoteService.getAllManufacturer();
 
         try {
@@ -48,7 +47,6 @@ public class RemoteCarNewDAO extends BaseRemoteDAO<CacheCarDAO, CarServiceNew> i
     @Override
     public Observable<List<Manufacturer>> getAllManufactureObservable() {
         final CarServiceNew carServiceNew = EnviroCarService.getCarServiceNew();
-         carServiceNew.newCarServiceUrl(EnviroCarService.BASE_URL_NEW);
         Call<List<Manufacturer>> carsCall = carServiceNew.getAllManufacturer();
         return Observable.just(carsCall)
                 .concatMap(listCall -> {

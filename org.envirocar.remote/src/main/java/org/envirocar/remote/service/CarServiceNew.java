@@ -12,8 +12,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 public interface CarServiceNew {
-    @GET
-    public Call<ResponseBody> newCarServiceUrl(@Url String url);
+
     @GET("manufacturers")
     Call<List<Manufacturer>> getAllManufacturer();
 

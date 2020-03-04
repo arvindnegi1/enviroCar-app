@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import org.envirocar.remote.service.AnnouncementsService;
 import org.envirocar.remote.service.CarService;
 import org.envirocar.remote.service.CarServiceNew;
+import org.envirocar.remote.service.EnviroCarService;
 import org.envirocar.remote.service.FuelingService;
 import org.envirocar.remote.service.PrivacyStatementService;
 import org.envirocar.remote.service.TermsOfUseService;
@@ -61,6 +62,17 @@ public class RetrofitModule {
 
     @Provides
     @Singleton
+    @Named("codechallenge")
+    protected Retrofit provideNewRetrofit(HttpUrl baseUrl, OkHttpClient client, Gson gson) {
+        return new Retrofit.Builder()
+                .client(client)
+                .baseUrl(EnviroCarService.BASE_URL_NEW)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+    }
+    @Provides
+    @Singleton
     protected UserService provideUserService(Retrofit retrofit) {
         return retrofit.create(UserService.class);
     }
@@ -79,7 +91,7 @@ public class RetrofitModule {
 
     @Provides
     @Singleton
-    protected CarServiceNew provideCarServiceNew(Retrofit retrofit) {
+    protected CarServiceNew provideCarServiceNew(@Named("codechallenge") Retrofit retrofit) {
         return retrofit.create(CarServiceNew.class);
     }
 
