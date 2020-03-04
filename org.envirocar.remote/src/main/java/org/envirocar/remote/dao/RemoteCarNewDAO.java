@@ -39,7 +39,7 @@ public class RemoteCarNewDAO extends BaseRemoteDAO<CacheCarDAO, CarServiceNew> i
 
     @Override
     public List<ManufacturerCar> getAllManufacturerCar(String manufid) throws DataRetrievalFailureException {
-        Call<List<ManufacturerCar>> manufactureCarCall = remoteService.getAllManufacturerCar(manufid);
+       Call<List<ManufacturerCar>> manufactureCarCall = remoteService.getAllManufacturerCar(manufid);
 
         try {
             Response<List<ManufacturerCar>> manufactureResponse = manufactureCarCall.execute();

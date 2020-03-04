@@ -139,7 +139,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Set<Car> mCars = new HashSet<>();
     private Set<String> mManufacturerNames = new HashSet<>();
     private Set<String> mModelName = new HashSet<>();
-    private Map<String,String> hsn = new HashMap<String, String>();
+    private Map<String,Set<String>> mModelYear = new ConcurrentHashMap<>();
+    private Map<String,String> hsn = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
@@ -499,8 +500,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     @Override
                     public void onComplete() {
                         mainThreadWorker.schedule(() -> {
-                            dispose();
                             modelText.setAdapter(asSortedAdapter(getContext(),mModelName));
+                            dispose();
                             downloadView.setVisibility(View.INVISIBLE);
                         });
 
@@ -508,7 +509,12 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
                     @Override
                     public void onNext(List<ManufacturerCar> manufacturerCars) {
+                        mModelName.clear();
+                        mModelYear.clear();
                         for(ManufacturerCar manufacturerCar : manufacturerCars) {
+                            if (!mModelYear.containsKey(manufacturerCar.getCommercialName()))
+                                mModelYear.put(manufacturerCar.getCommercialName(), new HashSet<>());
+                            mModelYear.get(manufacturerCar.getCommercialName()).add(manufacturerCar.getTsn());
                             mModelName.add(manufacturerCar.getCommercialName());
 
                         }
@@ -519,7 +525,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_LONG).show();
                             }
                         });
 
@@ -787,11 +793,22 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     }
 
     private void requestNextTextfieldFocus(TextView textField,AdapterView<?> parent,int position) {
-        try {
+        if(textField == manufacturerText) {
             String manufacturSelected = parent.getItemAtPosition(position).toString();
             Toast.makeText(getContext(),""+hsn.get(manufacturSelected),Toast.LENGTH_SHORT).show();
-            TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
             manufacturerCar(hsn.get(manufacturSelected));
+        }
+        else if(textField == modelText) {
+            String temp = "";
+            String manufactureCarSelected = parent.getItemAtPosition(position).toString();
+            Set<String> ss= mModelYear.get(manufactureCarSelected);
+            for(String it : ss) {
+                temp += it;
+            }
+            Toast.makeText(getContext(),""+temp,Toast.LENGTH_SHORT).show();
+        }
+        try {
+            TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
             nextField.requestFocus();
         } catch (Exception e) {
             LOG.warn("Unable to find next field or to request focus to next field.");
