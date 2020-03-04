@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnFocusChange;
 import butterknife.OnItemClick;
+import butterknife.OnItemSelected;
 import butterknife.OnTextChanged;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Observable;
@@ -135,6 +137,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
     private Set<Car> mCars = new HashSet<>();
     private Set<String> mManufacturerNames = new HashSet<>();
+    private Map<String,String> hsn = new HashMap<String, String>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
@@ -198,10 +201,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
         fueltypeText.setKeyListener(null);
 
-        manufacturerText.setOnItemClickListener((parent, view1, position, id) -> requestNextTextfieldFocus(manufacturerText));
-        modelText.setOnItemClickListener((parent, view12, position, id) -> requestNextTextfieldFocus(modelText));
-        yearText.setOnItemClickListener((parent, view13, position, id) -> requestNextTextfieldFocus(yearText));
-        fueltypeText.setOnItemClickListener((parent, view14, position, id) -> requestNextTextfieldFocus(fueltypeText));
+        manufacturerText.setOnItemClickListener((parent, view1, position, id) -> requestNextTextfieldFocus(manufacturerText,parent,position));
+        modelText.setOnItemClickListener((parent, view12, position, id) -> requestNextTextfieldFocus(modelText,parent,position));
+        yearText.setOnItemClickListener((parent, view13, position, id) -> requestNextTextfieldFocus(yearText,parent,position));
+        fueltypeText.setOnItemClickListener((parent, view14, position, id) -> requestNextTextfieldFocus(fueltypeText,parent,position));
 
        // dispatchRemoteSensors();
         showManufacturer();
@@ -238,7 +241,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
                         mainThreadWorker.schedule(() -> {
                            dispose();
-
+                            manufacturerText.setAdapter(asSortedAdapter(getContext(),mManufacturerNames));
                             downloadView.setVisibility(View.INVISIBLE);
                         });
 
@@ -258,9 +261,11 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     @Override
                     public void onNext(List<Manufacturer> manufacturers) {
                         for (Manufacturer manufacturer : manufacturers) {
-                            if (manufacturer != null)
-                                s+=manufacturer.getHsn()+"\n";
-
+                            if (manufacturer != null) {
+                                s += manufacturer.getHsn() + "\n";
+                            hsn.put(manufacturer.getName(),manufacturer.getHsn());
+                                mManufacturerNames.add(manufacturer.getName());
+                            }
                         }
                     }
                 }));
@@ -733,8 +738,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                 }, LOG::error));
     }
 
-    private void requestNextTextfieldFocus(TextView textField) {
+    private void requestNextTextfieldFocus(TextView textField,AdapterView<?> parent,int position) {
         try {
+            String manufacturSelected = parent.getItemAtPosition(position).toString();
+            Toast.makeText(getContext(),""+hsn.get(manufacturSelected),Toast.LENGTH_SHORT).show();
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
             nextField.requestFocus();
         } catch (Exception e) {
