@@ -52,6 +52,7 @@ import org.envirocar.app.views.utils.ECAnimationUtils;
 import org.envirocar.core.entity.Car;
 import org.envirocar.core.entity.CarImpl;
 import org.envirocar.core.entity.Manufacturer;
+import org.envirocar.core.entity.ManufacturerCar;
 import org.envirocar.core.exception.DataRetrievalFailureException;
 import org.envirocar.core.logging.Logger;
 import org.envirocar.remote.service.CarServiceNew;
@@ -137,6 +138,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
     private Set<Car> mCars = new HashSet<>();
     private Set<String> mManufacturerNames = new HashSet<>();
+    private Set<String> mModelName = new HashSet<>();
     private Map<String,String> hsn = new HashMap<String, String>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
@@ -478,7 +480,53 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             }
         };
     }
+    private void manufacturerCar(String carId){
+        disposables.add(daoProvider.getSensorNewDAO()
+                .getAllManufacturerCarObservable(carId)
+                .toFlowable(BackpressureStrategy.BUFFER)
+                .onBackpressureBuffer(10000)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .toObservable()
+                .subscribeWith(new DisposableObserver<List<ManufacturerCar>>() {
 
+                    @Override
+                    protected void onStart() {
+                        LOG.info("onStart() download Manufacturer Car");
+                        downloadView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        mainThreadWorker.schedule(() -> {
+                            dispose();
+                            modelText.setAdapter(asSortedAdapter(getContext(),mModelName));
+                            downloadView.setVisibility(View.INVISIBLE);
+                        });
+
+                    }
+
+                    @Override
+                    public void onNext(List<ManufacturerCar> manufacturerCars) {
+                        for(ManufacturerCar manufacturerCar : manufacturerCars) {
+                            mModelName.add(manufacturerCar.getCommercialName());
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                }));
+
+    }
     private void dispatchRemoteSensors() {
         disposables.add(daoProvider.getSensorDAO()
                 .getAllCarsObservable()
@@ -743,6 +791,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             String manufacturSelected = parent.getItemAtPosition(position).toString();
             Toast.makeText(getContext(),""+hsn.get(manufacturSelected),Toast.LENGTH_SHORT).show();
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
+            manufacturerCar(hsn.get(manufacturSelected));
             nextField.requestFocus();
         } catch (Exception e) {
             LOG.warn("Unable to find next field or to request focus to next field.");
