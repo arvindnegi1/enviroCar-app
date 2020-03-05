@@ -66,6 +66,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -140,6 +141,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Set<Car> mCars = new HashSet<>();
     private Set<CarNew> mCarsNew = new HashSet<>();
     private Set<String> mManufacturerNames = new HashSet<>();
+    private Set<String> mModelSet = new LinkedHashSet<>();
     private List<String> mModelName = new ArrayList<>();
     private Map<String,List<String>> mModelYear = new HashMap<>();
     private Map<String,String> hsn = new ConcurrentHashMap<>();
@@ -561,12 +563,14 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     public void onNext(List<ManufacturerCar> manufacturerCars) {
                         mModelName.clear();
                         mModelYear.clear();
+                        mModelSet.clear();
                         for(ManufacturerCar manufacturerCar : manufacturerCars) {
                             if (!mModelYear.containsKey(manufacturerCar.getCommercialName()))
                                 mModelYear.put(manufacturerCar.getCommercialName(), new ArrayList<>());
                             mModelYear.get(manufacturerCar.getCommercialName()).add(manufacturerCar.getTsn());
-                            mModelName.add(manufacturerCar.getCommercialName());
+                            mModelSet.add(manufacturerCar.getCommercialName());
                         }
+                        mModelName.addAll(mModelSet);
                     }
 
                     @Override
@@ -577,7 +581,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                                 Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_LONG).show();
                             }
                         });
-
                     }
                 }));
 
