@@ -149,6 +149,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
     String s="";
+    String manufacturSelected1 = "";
 
 
     @Nullable
@@ -505,7 +506,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     @Override
                     public void onComplete() {
                         mainThreadWorker.schedule(() -> {
-
+                            Toast.makeText(getContext(),"",Toast.LENGTH_SHORT).show();
                             dispose();
                             downloadView.setVisibility(View.INVISIBLE);
                         });
@@ -515,9 +516,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     @Override
                     public void onNext(List<CarNew> carNews) {
                         mCarsNew.clear();
-                        for(CarNew carNew: carNews) {
-                            mCarsNew.add(carNew);
-                        }
+                        mCarsNew.addAll(carNews);
                     }
 
                     @Override
@@ -846,9 +845,9 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
     private void requestNextTextfieldFocus(TextView textField,AdapterView<?> parent,int position) {
         if(textField == manufacturerText) {
-            String manufacturSelected = parent.getItemAtPosition(position).toString();
-            Toast.makeText(getContext(),""+hsn.get(manufacturSelected),Toast.LENGTH_SHORT).show();
-            manufacturerCar(hsn.get(manufacturSelected));
+            manufacturSelected1 = parent.getItemAtPosition(position).toString();
+            Toast.makeText(getContext(),""+hsn.get(manufacturSelected1),Toast.LENGTH_SHORT).show();
+            manufacturerCar(hsn.get(manufacturSelected1));
         }
         else if(textField == modelText) {
             String temp = "";
@@ -859,6 +858,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             }
             yearText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,ss));
             Toast.makeText(getContext(),""+temp,Toast.LENGTH_SHORT).show();
+        }
+        else if(textField == yearText) {
+            String yearSelected = parent.getItemAtPosition(position).toString();
+            getAllCarNew(hsn.get(manufacturSelected1),yearSelected);
         }
         try {
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);

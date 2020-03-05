@@ -27,8 +27,8 @@ public interface CarServiceNew {
     Call<List<ManufacturerCar>> getAllManufacturerCarObservable(@Path("manfuid")String manufuid);
 
     @GET("manufacturers/{manfuid}/vehicles/{carid}")
-    Call<List<CarNew>> getAllCarNew(@Path("manufid")String manufid,@Path("carid")String carid);
+    Call<List<CarNew>> getAllCarNew(@Path("manfuid")String manufid,@Path("carid")String carid);
 
     @GET("manufacturers/{manfuid}/vehicles/{carid}")
-    Call<List<CarNew>> getAllCarNewObservable(@Path("manufid")String manufid,@Path("carid")String carid);
+    Call<List<CarNew>> getAllCarNewObservable(@Path("manfuid")String manufid,@Path("carid")String carid);
 }
