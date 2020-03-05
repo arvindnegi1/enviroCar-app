@@ -53,12 +53,12 @@ public class RemoteCarNewDAO extends BaseRemoteDAO<CacheCarDAO, CarServiceNew> i
     }
 
     @Override
-    public List<CarNew> getAllCarNew(String manufid, String carid) throws DataRetrievalFailureException {
-        Call<List<CarNew>> carNewCall = remoteService.getAllCarNew(manufid,carid);
+    public CarNew getAllCarNew(String manufid, String carid) throws DataRetrievalFailureException {
+        Call<CarNew> carNewCall = remoteService.getAllCarNew(manufid,carid);
 
         try{
-            Response<List<CarNew>> carNewResponse = carNewCall.execute();
-            List<CarNew> result = carNewResponse.body();
+            Response<CarNew> carNewResponse = carNewCall.execute();
+            CarNew result = carNewResponse.body();
             return result;
         } catch (IOException e) {
             throw new DataRetrievalFailureException(e);
@@ -102,15 +102,15 @@ public class RemoteCarNewDAO extends BaseRemoteDAO<CacheCarDAO, CarServiceNew> i
     }
 
     @Override
-    public Observable<List<CarNew>> getAllCarNewObservable(String manufid, String carid) {
+    public Observable<CarNew> getAllCarNewObservable(String manufid, String carid) {
         final CarServiceNew carServiceNew = EnviroCarService.getCarServiceNew();
-        Call<List<CarNew>> carNewCall = carServiceNew.getAllCarNew(manufid, carid);
+        Call<CarNew> carNewCall = carServiceNew.getAllCarNew(manufid, carid);
         return Observable.just(carNewCall)
                 .concatMap(listCall -> {
                     try {
-                        Response<List<CarNew>> response = listCall.execute();
+                        Response<CarNew> response = listCall.execute();
 
-                        Observable<List<CarNew>> res = Observable.just(response.body());
+                        Observable<CarNew> res = Observable.just(response.body());
 
                         return res;
                     } catch (IOException e) {

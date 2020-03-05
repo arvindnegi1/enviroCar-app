@@ -139,7 +139,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Scheduler.Worker mainThreadWorker = AndroidSchedulers.mainThread().createWorker();
 
     private Set<Car> mCars = new HashSet<>();
-    private Set<CarNew> mCarsNew = new HashSet<>();
+    private CarNew mCarsNew;
     private Set<String> mManufacturerNames = new HashSet<>();
     private Set<String> mModelSet = new LinkedHashSet<>();
     private List<String> mModelName = new ArrayList<>();
@@ -495,7 +495,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .toObservable()
-                .subscribeWith(new DisposableObserver<List<CarNew>>() {
+                .subscribeWith(new DisposableObserver<CarNew>() {
 
                     @Override
                     protected void onStart() {
@@ -506,7 +506,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     @Override
                     public void onComplete() {
                         mainThreadWorker.schedule(() -> {
-                            Toast.makeText(getContext(),"",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),""+mCarsNew.getAllotmentDate(),Toast.LENGTH_SHORT).show();
                             dispose();
                             downloadView.setVisibility(View.INVISIBLE);
                         });
@@ -514,9 +514,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     }
 
                     @Override
-                    public void onNext(List<CarNew> carNews) {
-                        mCarsNew.clear();
-                        mCarsNew.addAll(carNews);
+                    public void onNext(CarNew carNews) {
+                       mCarsNew = carNews;
                     }
 
                     @Override
