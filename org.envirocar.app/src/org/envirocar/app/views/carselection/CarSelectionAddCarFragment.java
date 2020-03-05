@@ -141,7 +141,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Set<CarNew> mCarsNew = new HashSet<>();
     private Set<String> mManufacturerNames = new HashSet<>();
     private Set<String> mModelName = new HashSet<>();
-    private Map<String,Set<String>> mModelYear = new ConcurrentHashMap<>();
+    private Map<String,List<String>> mModelYear = new ConcurrentHashMap<>();
     private Map<String,String> hsn = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
@@ -214,7 +214,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
        // dispatchRemoteSensors();
         showManufacturer();
 
-        initFocusChangedListener();
+        //initFocusChangedListener();
         initWatcher();
         return view;
     }
@@ -562,7 +562,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                         mModelYear.clear();
                         for(ManufacturerCar manufacturerCar : manufacturerCars) {
                             if (!mModelYear.containsKey(manufacturerCar.getCommercialName()))
-                                mModelYear.put(manufacturerCar.getCommercialName(), new HashSet<>());
+                                mModelYear.put(manufacturerCar.getCommercialName(), new ArrayList<>());
                             mModelYear.get(manufacturerCar.getCommercialName()).add(manufacturerCar.getTsn());
                             mModelName.add(manufacturerCar.getCommercialName());
 
@@ -850,10 +850,11 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         else if(textField == modelText) {
             String temp = "";
             String manufactureCarSelected = parent.getItemAtPosition(position).toString();
-            Set<String> ss= mModelYear.get(manufactureCarSelected);
+            List<String> ss= mModelYear.get(manufactureCarSelected);
             for(String it : ss) {
                 temp += it;
             }
+            yearText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,ss));
             Toast.makeText(getContext(),""+temp,Toast.LENGTH_SHORT).show();
         }
         try {
