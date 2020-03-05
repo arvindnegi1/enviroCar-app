@@ -2,9 +2,11 @@ package org.envirocar.remote.dao;
 
 
 import org.envirocar.core.dao.CarNewDAO;
+import org.envirocar.core.entity.CarNew;
 import org.envirocar.core.entity.Manufacturer;
 import org.envirocar.core.entity.ManufacturerCar;
 import org.envirocar.core.exception.DataRetrievalFailureException;
+import org.envirocar.remote.service.CarService;
 import org.envirocar.remote.service.CarServiceNew;
 import org.envirocar.remote.service.EnviroCarService;
 
@@ -51,6 +53,19 @@ public class RemoteCarNewDAO extends BaseRemoteDAO<CacheCarDAO, CarServiceNew> i
     }
 
     @Override
+    public List<CarNew> getAllCarNew(String manufid, String carid) throws DataRetrievalFailureException {
+        Call<List<CarNew>> carNewCall = remoteService.getAllCarNew(manufid,carid);
+
+        try{
+            Response<List<CarNew>> carNewResponse = carNewCall.execute();
+            List<CarNew> result = carNewResponse.body();
+            return result;
+        } catch (IOException e) {
+            throw new DataRetrievalFailureException(e);
+        }
+    }
+
+    @Override
     public Observable<List<Manufacturer>> getAllManufactureObservable() {
         final CarServiceNew carServiceNew = EnviroCarService.getCarServiceNew();
         Call<List<Manufacturer>> carsCall = carServiceNew.getAllManufacturer();
@@ -78,6 +93,24 @@ public class RemoteCarNewDAO extends BaseRemoteDAO<CacheCarDAO, CarServiceNew> i
                         Response<List<ManufacturerCar>> response = listCall.execute();
 
                         Observable<List<ManufacturerCar>> res = Observable.just(response.body());
+
+                        return res;
+                    } catch (IOException e) {
+                        return Observable.error(new DataRetrievalFailureException(e));
+                    }
+                });
+    }
+
+    @Override
+    public Observable<List<CarNew>> getAllCarNewObservable(String manufid, String carid) {
+        final CarServiceNew carServiceNew = EnviroCarService.getCarServiceNew();
+        Call<List<CarNew>> carNewCall = carServiceNew.getAllCarNew(manufid, carid);
+        return Observable.just(carNewCall)
+                .concatMap(listCall -> {
+                    try {
+                        Response<List<CarNew>> response = listCall.execute();
+
+                        Observable<List<CarNew>> res = Observable.just(response.body());
 
                         return res;
                     } catch (IOException e) {

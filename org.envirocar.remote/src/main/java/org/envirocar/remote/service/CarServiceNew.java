@@ -1,5 +1,6 @@
 package org.envirocar.remote.service;
 
+import org.envirocar.core.entity.CarNew;
 import org.envirocar.core.entity.Manufacturer;
 import org.envirocar.core.entity.ManufacturerCar;
 
@@ -24,4 +25,10 @@ public interface CarServiceNew {
 
     @GET("manufacturers/{manfuid}/vehicles")
     Call<List<ManufacturerCar>> getAllManufacturerCarObservable(@Path("manfuid")String manufuid);
+
+    @GET("manufacturers/{manfuid}/vehicles/{carid}")
+    Call<List<CarNew>> getAllCarNew(@Path("manufid")String manufid,@Path("carid")String carid);
+
+    @GET("manufacturers/{manfuid}/vehicles/{carid}")
+    Call<List<CarNew>> getAllCarNewObservable(@Path("manufid")String manufid,@Path("carid")String carid);
 }
