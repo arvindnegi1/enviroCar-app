@@ -51,6 +51,7 @@ import org.envirocar.app.BaseApplicationComponent;
 import org.envirocar.app.views.utils.ECAnimationUtils;
 import org.envirocar.core.entity.Car;
 import org.envirocar.core.entity.CarImpl;
+import org.envirocar.core.entity.CarNew;
 import org.envirocar.core.entity.Manufacturer;
 import org.envirocar.core.entity.ManufacturerCar;
 import org.envirocar.core.exception.DataRetrievalFailureException;
@@ -137,6 +138,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Scheduler.Worker mainThreadWorker = AndroidSchedulers.mainThread().createWorker();
 
     private Set<Car> mCars = new HashSet<>();
+    private Set<CarNew> mCarsNew = new HashSet<>();
     private Set<String> mManufacturerNames = new HashSet<>();
     private Set<String> mModelName = new HashSet<>();
     private Map<String,Set<String>> mModelYear = new ConcurrentHashMap<>();
@@ -480,6 +482,53 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                 return selectedCar;
             }
         };
+    }
+
+    private void getAllCarNew(String manufid,String carid) {
+        disposables.add(daoProvider.getSensorNewDAO()
+                .getAllCarNewObservable(manufid,carid)
+                .toFlowable(BackpressureStrategy.BUFFER)
+                .onBackpressureBuffer(10000)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .toObservable()
+                .subscribeWith(new DisposableObserver<List<CarNew>>() {
+
+                    @Override
+                    protected void onStart() {
+                        LOG.info("onStart() download Manufacturer Car");
+                        downloadView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        mainThreadWorker.schedule(() -> {
+
+                            dispose();
+                            downloadView.setVisibility(View.INVISIBLE);
+                        });
+
+                    }
+
+                    @Override
+                    public void onNext(List<CarNew> carNews) {
+                        mCarsNew.clear();
+                        for(CarNew carNew: carNews) {
+                            mCarsNew.add(carNew);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                    }
+                }));
     }
     private void manufacturerCar(String carId){
         disposables.add(daoProvider.getSensorNewDAO()
