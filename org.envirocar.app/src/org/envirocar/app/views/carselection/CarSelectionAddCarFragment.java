@@ -140,8 +140,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Set<Car> mCars = new HashSet<>();
     private Set<CarNew> mCarsNew = new HashSet<>();
     private Set<String> mManufacturerNames = new HashSet<>();
-    private Set<String> mModelName = new HashSet<>();
-    private Map<String,List<String>> mModelYear = new ConcurrentHashMap<>();
+    private List<String> mModelName = new ArrayList<>();
+    private Map<String,List<String>> mModelYear = new HashMap<>();
     private Map<String,String> hsn = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
@@ -549,7 +549,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     @Override
                     public void onComplete() {
                         mainThreadWorker.schedule(() -> {
-                            modelText.setAdapter(asSortedAdapter(getContext(),mModelName));
+                            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,mModelName);
+                            modelText.setAdapter(arrayAdapter);
                             dispose();
                             downloadView.setVisibility(View.INVISIBLE);
                         });
@@ -565,7 +566,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                                 mModelYear.put(manufacturerCar.getCommercialName(), new ArrayList<>());
                             mModelYear.get(manufacturerCar.getCommercialName()).add(manufacturerCar.getTsn());
                             mModelName.add(manufacturerCar.getCommercialName());
-
                         }
                     }
 
