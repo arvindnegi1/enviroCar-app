@@ -143,9 +143,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private CarNew mCarsNew;
     private Set<String> mManufacturerNames = new HashSet<>();
     private Set<String> mModelSet = new LinkedHashSet<>();
-    private Set<String> mYearSet = new LinkedHashSet<>();
+    private Set<String> mYearSet = new HashSet<>();
     private List<String> mModelName = new ArrayList<>();
     private List<String> mYear = new ArrayList<>();
+    private Map<String,List<CarNew>> mModelYearFuelToEngine = new HashMap<>();
     private Map<String,List<CarNew>> mModelToYearToFuel = new HashMap<>();
     private Map<String,List<String>> mModelYear = new HashMap<>();
     private Map<String,String> hsn = new ConcurrentHashMap<>();
@@ -873,12 +874,27 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         else if(textField == yearText) {
             String yearSelected = parent.getItemAtPosition(position).toString();
             List<CarNew> carNews = mModelToYearToFuel.get(yearSelected);
+            mModelYearFuelToEngine.clear();
+            Set<String> fuelSet = new LinkedHashSet<>();
             List<String> fuel = new ArrayList<>();
             for(CarNew carNew : carNews) {
                 List<Link> allLinks = carNew.getLinks();
-                fuel.add(allLinks.get(1).getTitle());
+                fuelSet.add(allLinks.get(1).getTitle());
+                if (!mModelYearFuelToEngine.containsKey(allLinks.get(1).getTitle()))
+                    mModelYearFuelToEngine.put(allLinks.get(1).getTitle(), new ArrayList<>());
+                mModelYearFuelToEngine.get(allLinks.get(1).getTitle()).add(carNew);
             }
+            fuel.addAll(fuelSet);
             fueltypeText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,fuel));
+        }
+        else if(textField == fueltypeText) {
+            String fuelSelected = parent.getItemAtPosition(position).toString();
+            List<CarNew> carNews = mModelYearFuelToEngine.get(fuelSelected);
+            List<Integer> engine = new ArrayList<>();
+            for(CarNew carNew : carNews) {
+                engine.add(carNew.getEngineCapacity());
+            }
+            engineText.setAdapter(new ArrayAdapter<Integer>(getContext(),android.R.layout.simple_dropdown_item_1line,engine));
         }
         try {
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
