@@ -52,6 +52,7 @@ import org.envirocar.app.views.utils.ECAnimationUtils;
 import org.envirocar.core.entity.Car;
 import org.envirocar.core.entity.CarImpl;
 import org.envirocar.core.entity.CarNew;
+import org.envirocar.core.entity.Link;
 import org.envirocar.core.entity.Manufacturer;
 import org.envirocar.core.entity.ManufacturerCar;
 import org.envirocar.core.exception.DataRetrievalFailureException;
@@ -142,7 +143,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private CarNew mCarsNew;
     private Set<String> mManufacturerNames = new HashSet<>();
     private Set<String> mModelSet = new LinkedHashSet<>();
+    private Set<String> mYearSet = new LinkedHashSet<>();
     private List<String> mModelName = new ArrayList<>();
+    private List<String> mYear = new ArrayList<>();
+    private Map<String,List<CarNew>> mModelToYearToFuel = new HashMap<>();
     private Map<String,List<String>> mModelYear = new HashMap<>();
     private Map<String,String> hsn = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
@@ -201,10 +205,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                 });
 
 
-        fueltypeText.setAdapter(new FuelTypeAdapter(
+        /*fueltypeText.setAdapter(new FuelTypeAdapter(
                 getContext(),
                 R.layout.activity_car_selection_newcar_fueltype_item,
-                Car.FuelType.values()));
+                Car.FuelType.values()));*/
 
 
         fueltypeText.setKeyListener(null);
@@ -516,6 +520,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     @Override
                     public void onNext(CarNew carNews) {
                        mCarsNew = carNews;
+                       mYear.add(carNews.getAllotmentDate());
+                        if (!mModelToYearToFuel.containsKey(carNews.getAllotmentDate()))
+                            mModelToYearToFuel.put(carNews.getAllotmentDate(), new ArrayList<>());
+                        mModelToYearToFuel.get(carNews.getAllotmentDate()).add(carNews);
                     }
 
                     @Override
@@ -851,16 +859,26 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         else if(textField == modelText) {
             String temp = "";
             String manufactureCarSelected = parent.getItemAtPosition(position).toString();
-            List<String> ss= mModelYear.get(manufactureCarSelected);
+            List<String> ss = mModelYear.get(manufactureCarSelected);
+            mYear.clear();
+            //mYearSet.clear();
+            mModelToYearToFuel.clear();
             for(String it : ss) {
-                temp += it;
+                getAllCarNew(hsn.get(manufacturSelected1),it);
             }
-            yearText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,ss));
+            //mYear.addAll(mYearSet);
+            yearText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,mYear));
             Toast.makeText(getContext(),""+temp,Toast.LENGTH_SHORT).show();
         }
         else if(textField == yearText) {
             String yearSelected = parent.getItemAtPosition(position).toString();
-            getAllCarNew(hsn.get(manufacturSelected1),yearSelected);
+            List<CarNew> carNews = mModelToYearToFuel.get(yearSelected);
+            List<String> fuel = new ArrayList<>();
+            for(CarNew carNew : carNews) {
+                List<Link> allLinks = carNew.getLinks();
+                fuel.add(allLinks.get(1).getTitle());
+            }
+            fueltypeText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,fuel));
         }
         try {
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
