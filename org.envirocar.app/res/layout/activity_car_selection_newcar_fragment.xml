@@ -199,6 +199,28 @@
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/activity_car_selection_newcar_layout_power"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/car_selection_engine_power"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="16dp"
+                app:startIconDrawable="@drawable/ic_engine">
+
+                <AutoCompleteTextView
+                    android:id="@+id/activity_car_selection_newcar_input_power"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

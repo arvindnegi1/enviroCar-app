@@ -20,6 +20,7 @@ package org.envirocar.app.views.carselection;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Pair;
@@ -130,6 +131,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     protected TextInputLayout engineLayout;
     @BindView(R.id.activity_car_selection_newcar_input_engine)
     protected AutoCompleteTextView engineText;
+    @BindView(R.id.activity_car_selection_newcar_input_power)
+    protected AutoCompleteTextView powerText;
 
     @Inject
     protected DAOProvider daoProvider;
@@ -147,6 +150,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private List<String> mModelName = new ArrayList<>();
     private List<String> mYear = new ArrayList<>();
     private Map<String,List<CarNew>> mModelYearFuelToEngine = new HashMap<>();
+    private Map<Integer,List<CarNew>> mModelYearFuelEngineToPower = new HashMap<>();
     private Map<String,List<CarNew>> mModelToYearToFuel = new HashMap<>();
     private Map<String,List<String>> mModelYear = new HashMap<>();
     private Map<String,String> hsn = new ConcurrentHashMap<>();
@@ -218,7 +222,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         modelText.setOnItemClickListener((parent, view12, position, id) -> requestNextTextfieldFocus(modelText,parent,position));
         yearText.setOnItemClickListener((parent, view13, position, id) -> requestNextTextfieldFocus(yearText,parent,position));
         fueltypeText.setOnItemClickListener((parent, view14, position, id) -> requestNextTextfieldFocus(fueltypeText,parent,position));
-
+        engineText.setOnItemClickListener((parent,view15,position,id)-> requestNextTextfieldFocus(engineText,parent,position));
        // dispatchRemoteSensors();
         showManufacturer();
 
@@ -890,11 +894,30 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         else if(textField == fueltypeText) {
             String fuelSelected = parent.getItemAtPosition(position).toString();
             List<CarNew> carNews = mModelYearFuelToEngine.get(fuelSelected);
+            mModelYearFuelEngineToPower.clear();
+            Set<Integer> engineSet = new LinkedHashSet<>();
             List<Integer> engine = new ArrayList<>();
             for(CarNew carNew : carNews) {
-                engine.add(carNew.getEngineCapacity());
+                engineSet.add(carNew.getEngineCapacity());
+                if (!mModelYearFuelEngineToPower.containsKey(carNew.getEngineCapacity()))
+                    mModelYearFuelEngineToPower.put(carNew.getEngineCapacity(), new ArrayList<>());
+                mModelYearFuelEngineToPower.get(carNew.getEngineCapacity()).add(carNew);
             }
+            engine.addAll(engineSet);
             engineText.setAdapter(new ArrayAdapter<Integer>(getContext(),android.R.layout.simple_dropdown_item_1line,engine));
+        }
+        else if(textField == engineText) {
+            Integer engineSelected = Integer.parseInt(parent.getItemAtPosition(position).toString());
+            List<CarNew> carNews = mModelYearFuelEngineToPower.get(engineSelected);
+            List<Integer> power = new ArrayList<>();
+            for(CarNew carNew : carNews) {
+                power.add(carNew.getPower());
+            }
+            powerText.setAdapter(new ArrayAdapter<Integer>(getContext(),android.R.layout.simple_dropdown_item_1line,power));
+
+        }
+        else if(textField == powerText) {
+            Integer powerSelected = Integer.parseInt(parent.getItemAtPosition(position).toString());
         }
         try {
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
