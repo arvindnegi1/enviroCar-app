@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +80,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnItemClick;
 import butterknife.OnItemSelected;
@@ -133,6 +135,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     protected AutoCompleteTextView engineText;
     @BindView(R.id.activity_car_selection_newcar_input_power)
     protected AutoCompleteTextView powerText;
+    @BindView(R.id.activity_car_selection_layout_fullDetail)
+    protected Button full;
 
     @Inject
     protected DAOProvider daoProvider;
@@ -151,12 +155,14 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private List<String> mYear = new ArrayList<>();
     private Map<String,List<CarNew>> mModelYearFuelToEngine = new HashMap<>();
     private Map<Integer,List<CarNew>> mModelYearFuelEngineToPower = new HashMap<>();
+    private Map<Integer,List<CarNew>> mModelPowerToCar = new HashMap<>();
     private Map<String,List<CarNew>> mModelToYearToFuel = new HashMap<>();
     private Map<String,List<String>> mModelYear = new HashMap<>();
     private Map<String,String> hsn = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
+    CarNew readyCar;
     String s="";
     String manufacturSelected1 = "";
 
@@ -223,6 +229,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         yearText.setOnItemClickListener((parent, view13, position, id) -> requestNextTextfieldFocus(yearText,parent,position));
         fueltypeText.setOnItemClickListener((parent, view14, position, id) -> requestNextTextfieldFocus(fueltypeText,parent,position));
         engineText.setOnItemClickListener((parent,view15,position,id)-> requestNextTextfieldFocus(engineText,parent,position));
+        powerText.setOnItemClickListener((parent,view16,position,id)->requestNextTextfieldFocus(powerText,parent,position));
        // dispatchRemoteSensors();
         showManufacturer();
 
@@ -352,6 +359,14 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     @OnTextChanged(value = R.id.activity_car_selection_newcar_input_engine)
     protected void onEngineDisplacementChanged(CharSequence text) {
         engineText.setError(null);
+    }
+
+    @OnClick(R.id.activity_car_selection_layout_fullDetail)
+    protected void seeCarFullDetails() {
+        String s=readyCar.getAllotmentDate()+readyCar.getPower()+
+                readyCar.getEngineCapacity()+"\naxles"+readyCar.getAxles()+
+                "\nmass"+readyCar.getMaximumMass()+"\nseats"+readyCar.getSeats();
+        Toast.makeText(getContext(),""+s,Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -860,6 +875,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             manufacturSelected1 = parent.getItemAtPosition(position).toString();
             Toast.makeText(getContext(),""+hsn.get(manufacturSelected1),Toast.LENGTH_SHORT).show();
             manufacturerCar(hsn.get(manufacturSelected1));
+            full.setVisibility(View.GONE);
         }
         else if(textField == modelText) {
             String temp = "";
@@ -872,6 +888,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                 getAllCarNew(hsn.get(manufacturSelected1),it);
             }
             //mYear.addAll(mYearSet);
+            full.setVisibility(View.GONE);
             yearText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,mYear));
             Toast.makeText(getContext(),""+temp,Toast.LENGTH_SHORT).show();
         }
@@ -889,6 +906,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                 mModelYearFuelToEngine.get(allLinks.get(1).getTitle()).add(carNew);
             }
             fuel.addAll(fuelSet);
+            full.setVisibility(View.GONE);
             fueltypeText.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,fuel));
         }
         else if(textField == fueltypeText) {
@@ -903,6 +921,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                     mModelYearFuelEngineToPower.put(carNew.getEngineCapacity(), new ArrayList<>());
                 mModelYearFuelEngineToPower.get(carNew.getEngineCapacity()).add(carNew);
             }
+            full.setVisibility(View.GONE);
             engine.addAll(engineSet);
             engineText.setAdapter(new ArrayAdapter<Integer>(getContext(),android.R.layout.simple_dropdown_item_1line,engine));
         }
@@ -910,14 +929,23 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             Integer engineSelected = Integer.parseInt(parent.getItemAtPosition(position).toString());
             List<CarNew> carNews = mModelYearFuelEngineToPower.get(engineSelected);
             List<Integer> power = new ArrayList<>();
+            mModelPowerToCar.clear();
             for(CarNew carNew : carNews) {
                 power.add(carNew.getPower());
+                if (!mModelPowerToCar.containsKey(carNew.getPower()))
+                    mModelPowerToCar.put(carNew.getPower(), new ArrayList<>());
+                mModelPowerToCar.get(carNew.getPower()).add(carNew);
             }
+            full.setVisibility(View.GONE);
             powerText.setAdapter(new ArrayAdapter<Integer>(getContext(),android.R.layout.simple_dropdown_item_1line,power));
-
         }
         else if(textField == powerText) {
             Integer powerSelected = Integer.parseInt(parent.getItemAtPosition(position).toString());
+            List<CarNew> carNews = mModelPowerToCar.get(powerSelected);
+            for(CarNew carNew :carNews) {
+                readyCar = carNew;
+            }
+        full.setVisibility(View.VISIBLE);
         }
         try {
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
