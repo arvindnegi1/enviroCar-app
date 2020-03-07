@@ -169,7 +169,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
     CarNew readyCar;
-    String s="";
     String manufacturSelected1 = "";
 
 
@@ -262,12 +261,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
                     @Override
                     public void onComplete() {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(),"Successful"+s,Toast.LENGTH_SHORT).show();
-                            }
-                        });
 
                         mainThreadWorker.schedule(() -> {
                            dispose();
@@ -279,20 +272,12 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                       getActivity().runOnUiThread(new Runnable() {
-                           @Override
-                           public void run() {
-                               Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
-                           }
-                       });
-
                     }
 
                     @Override
                     public void onNext(List<Manufacturer> manufacturers) {
                         for (Manufacturer manufacturer : manufacturers) {
                             if (manufacturer != null) {
-                                s += manufacturer.getHsn() + "\n";
                             hsn.put(manufacturer.getName(),manufacturer.getHsn());
                                 mManufacturerNames.add(manufacturer.getName());
                             }
@@ -354,6 +339,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
     @OnTextChanged(value = R.id.activity_car_selection_newcar_input_fueltype, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     protected void onFuelTypeChanged(CharSequence text) {
+
+        fueltypeText.setError(null);
+        engineText.setText("");
+        powerText.setText("");
         if (text.toString().isEmpty())
             return;
 
@@ -571,13 +560,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_LONG).show();
-                            }
-                        });
-
                     }
                 }));
     }
@@ -624,12 +606,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_LONG).show();
-                            }
-                        });
+
                     }
                 }));
 
