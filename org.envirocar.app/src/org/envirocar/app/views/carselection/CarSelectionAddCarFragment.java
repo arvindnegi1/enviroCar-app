@@ -118,6 +118,12 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     protected View contentView;
     @BindView(R.id.activity_car_selection_newcar_download_layout)
     protected View downloadView;
+    @BindView(R.id.seefulllayout)
+    protected View layoutsee;
+    @BindView(R.id.seefull)
+    TextView textView;
+    @BindView(R.id.choosedetail)
+    protected View choose;
 
     @BindView(R.id.activity_car_selection_newcar_layout_manufacturer)
     protected TextInputLayout manufacturerLayout;
@@ -324,6 +330,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         modelText.setText("");
         yearText.setText("");
         engineText.setText("");
+        fueltypeText.setText("");
+        powerText.setText("");
     }
 
     @OnTextChanged(value = R.id.activity_car_selection_newcar_input_model, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
@@ -332,12 +340,16 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
         yearText.setText("");
         engineText.setText("");
+        fueltypeText.setText("");
+        powerText.setText("");
     }
 
     @OnTextChanged(value = R.id.activity_car_selection_newcar_input_constructionyear, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     protected void onConstructionYearChanged(CharSequence text) {
         yearText.setError(null);
         engineText.setText("");
+        fueltypeText.setText("");
+        powerText.setText("");
     }
 
     @OnTextChanged(value = R.id.activity_car_selection_newcar_input_fueltype, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
@@ -359,14 +371,25 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     @OnTextChanged(value = R.id.activity_car_selection_newcar_input_engine)
     protected void onEngineDisplacementChanged(CharSequence text) {
         engineText.setError(null);
+        powerText.setText("");
     }
 
     @OnClick(R.id.activity_car_selection_layout_fullDetail)
     protected void seeCarFullDetails() {
-        String s=readyCar.getAllotmentDate()+readyCar.getPower()+
-                readyCar.getEngineCapacity()+"\naxles"+readyCar.getAxles()+
-                "\nmass"+readyCar.getMaximumMass()+"\nseats"+readyCar.getSeats();
-        Toast.makeText(getContext(),""+s,Toast.LENGTH_SHORT).show();
+
+        choose.setVisibility(View.GONE);
+        layoutsee.setVisibility(View.VISIBLE);
+        String s="Name: "+readyCar.getCommercialName()+"\n\nAllotment date: "+readyCar.getAllotmentDate()
+                +"\n\nPower: "+readyCar.getPower()+
+                "\n\nEngine: "+readyCar.getEngineCapacity()+"\n\nAxles: "+readyCar.getAxles()+
+                "\n\nMass: "+readyCar.getMaximumMass()+"\n\nSeats: "+readyCar.getSeats();
+        textView.setText(s);
+    }
+
+    @OnClick(R.id.seefulllayout)
+    protected void closethis() {
+        layoutsee.setVisibility(View.GONE);
+        choose.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -463,10 +486,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             }
 
             // if tengine or year have invalid values, then request the focus.
-            if (focusView != null) {
+           /* if (focusView != null) {
                 focusView.requestFocus();
                 return false;
-            }
+            }*/
 
             return true;
         };
@@ -951,6 +974,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             TextView nextField = (TextView) textField.focusSearch(View.FOCUS_DOWN);
             nextField.requestFocus();
         } catch (Exception e) {
+            hideKeyboard(getView());
             LOG.warn("Unable to find next field or to request focus to next field.");
         }
     }

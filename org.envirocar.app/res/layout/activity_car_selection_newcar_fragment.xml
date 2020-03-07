@@ -47,7 +47,6 @@
                 android:text="@string/car_selection_enter_info"
                 android:textColor="@color/white_cario"
                 android:textSize="13sp" />
-
         </RelativeLayout>
     </LinearLayout>
 
@@ -101,6 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:id="@+id/choosedetail"
                 android:background="#DEDEDE">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -257,6 +257,19 @@
                 android:layout_gravity="center"
                 android:visibility="gone"/>
             </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/seefulllayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/seefull"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="center"/>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
