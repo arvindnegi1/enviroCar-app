@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 
     Copyright (C) 2013 - 2019 the enviroCar community
 
@@ -18,10 +19,10 @@
     with the enviroCar app. If not, see http://www.gnu.org/licenses/.
 
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="@dimen/spacing_xxxxlarge"
     android:layout_marginTop="@dimen/spacing_large"
     android:layout_marginLeft="@dimen/spacing_large"
     android:layout_marginRight="@dimen/spacing_large"
@@ -34,7 +35,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/spacing_medium"
         android:alpha="0.54"
-        android:src="@drawable/ic_drive_eta_black_24dp" />
+        android:src="@drawable/ic_drive_eta_black_24dp"/>
 
     <RadioButton
         android:id="@+id/activity_car_selection_layout_carlist_entry_radio"
@@ -43,43 +44,81 @@
         android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/spacing_large" />
+        android:layout_marginLeft="@dimen/spacing_large"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:layout_toLeftOf="@id/activity_car_selection_layout_carlist_entry_radio"
         android:layout_toRightOf="@id/activity_car_selection_layout_carlist_entry_icon"
         android:orientation="vertical"
         android:paddingLeft="24dp"
         android:paddingRight="@dimen/spacing_large">
 
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/activity_car_selection_layout_carlist_entry_firstline"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:text="Car Type"
+            android:textSize="16sp"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:singleLine="true"
-            android:text="@string/dashboard_carselection_no_car_selected"
-            android:textColor="#000000"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="15sp"
-            app:autoSizeTextType="uniform" />
+            android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/activity_car_selection_layout_carlist_entry_secondline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:singleLine="true"
-            android:text="@string/dashboard_carselection_no_car_selected_advise"
-            android:textColor="#000000"
-            app:autoSizeMaxTextSize="15sp"
-            app:autoSizeMinTextSize="7sp"
-            app:autoSizeTextType="uniform" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_year"
+                    style="@style/carDetailsSubtitle"
+                    android:text="2004"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_gasoline"
+                    style="@style/carDetailsSubtitle"
+                    android:text="Gasoline"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_engine"
+                    style="@style/carDetailsSubtitle"
+                    android:text="Gasoline"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -89,6 +128,193 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="24dp"
         android:layout_toRightOf="@id/activity_car_selection_layout_carlist_entry_icon"
-        android:background="@color/envirocar_color_divider_grey" />
+        android:background="@color/envirocar_color_divider_grey"></LinearLayout>
 
 </RelativeLayout>
+-->
+
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="24dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginRight="20dp"
+    app:cardElevation="4dp"
+    android:backgroundTint="@color/blue_light_cario"
+    app:cardCornerRadius="15dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/activity_car_selection_layout_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/activity_car_selection_layout_carlist_entry_firstline"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:gravity="center_vertical"
+                android:text="Car Type"
+                android:textSize="18sp"/>
+            <RadioButton
+                android:id="@+id/activity_car_selection_layout_carlist_entry_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/spacing_large"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@id/activity_car_selection_layout_heading"
+            >
+            <ImageView
+                android:id="@+id/activity_car_selection_layout_carlist_entry_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/spacing_medium"
+                android:alpha="0.54"
+
+                android:src="@drawable/ic_drive_eta_black_24dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@id/activity_car_selection_layout_carlist_entry_icon"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_year_layout"
+                    >
+                    <TextView
+                        style="@style/carDetailsSubtitle"
+                        android:text="Year"
+                        android:textSize="11sp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:textColor="#A1A1A1"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/envirocar_color_divider_grey"/>
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignWithParentIfMissing="true"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_year_data"
+                    android:layout_below="@id/activity_car_selection_layout_carlist_entry_year_layout"
+                    >
+                    <TextView
+                        android:id="@+id/activity_car_selection_layout_carlist_entry_year"
+                        style="@style/carDetailsSubtitle"
+                        android:text="2004"
+                        android:textAlignment="center"
+                        android:textSize="13sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/envirocar_color_divider_grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_gasoline_layout"
+                    android:layout_toRightOf="@id/activity_car_selection_layout_carlist_entry_year_layout"
+                    >
+                    <TextView
+                        style="@style/carDetailsSubtitle"
+                        android:text="Type"
+                        android:textAlignment="center"
+                        android:textColor="#A1A1A1"
+                        android:layout_gravity="center"
+                        android:textSize="11sp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/envirocar_color_divider_grey"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_gasoline_data"
+                    android:layout_toRightOf="@id/activity_car_selection_layout_carlist_entry_year_data"
+                    android:layout_below="@id/activity_car_selection_layout_carlist_entry_gasoline_layout"
+                    >
+                    <TextView
+                        android:id="@+id/activity_car_selection_layout_carlist_entry_gasoline"
+                        style="@style/carDetailsSubtitle"
+                        android:text="Gasoline"
+                        android:textAlignment="center"
+                        android:textSize="13sp"
+                        />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/envirocar_color_divider_grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/activity_car_selection_layout_carlist_entry_engine_layout"
+                    android:layout_toRightOf="@id/activity_car_selection_layout_carlist_entry_gasoline_layout"
+                    >
+                    <TextView
+                        style="@style/carDetailsSubtitle"
+                        android:text="Displacement"
+                        android:textAlignment="center"
+                        android:textColor="#A1A1A1"
+                        android:layout_gravity="center"
+                        android:textSize="11sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/activity_car_selection_layout_carlist_entry_gasoline_data"
+                    android:layout_below="@id/activity_car_selection_layout_carlist_entry_engine_layout">
+
+                    <TextView
+                        android:id="@+id/activity_car_selection_layout_carlist_entry_engine"
+                        style="@style/carDetailsSubtitle"
+                        android:text="Gasoline"
+                        android:textAlignment="center"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
