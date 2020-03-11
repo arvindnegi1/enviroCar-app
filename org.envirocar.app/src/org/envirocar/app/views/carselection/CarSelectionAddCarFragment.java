@@ -40,6 +40,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.jakewharton.rxbinding3.appcompat.RxToolbar;
@@ -124,6 +125,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     TextView textView;
     @BindView(R.id.choosedetail)
     protected View choose;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
     @BindView(R.id.activity_car_selection_newcar_layout_manufacturer)
     protected TextInputLayout manufacturerLayout;
