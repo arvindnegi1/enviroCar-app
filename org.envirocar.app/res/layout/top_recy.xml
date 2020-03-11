@@ -36,7 +36,7 @@
             android:layout_marginLeft="50dp"
             android:id="@+id/laytext"
             android:layout_below="@id/prog"
-            android:textAlignment="textEnd"
+
             />
     </RelativeLayout>
 </LinearLayout>

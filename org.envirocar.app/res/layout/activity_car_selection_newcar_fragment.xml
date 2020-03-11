@@ -54,14 +54,13 @@
         android:id="@+id/activity_car_selection_newcar_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0165A1">
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="#0165A1">
+            android:padding="16dp">
 
             <LinearLayout
                 android:id="@+id/activity_car_selection_newcar_download_layout"
@@ -94,14 +93,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                android:background="#DEDEDE">
+                app:cardCornerRadius="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/choosedetail"
-                android:background="#DEDEDE">
+                android:id="@+id/choosedetail">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/activity_car_selection_newcar_layout_manufacturer"

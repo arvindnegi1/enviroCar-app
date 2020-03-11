@@ -40,6 +40,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -192,6 +193,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         });
 
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        String items[] = new String[]{"asd","bsd","csd"};
+        recyclerView.setAdapter(new CustomAdapter(getContext(),items));
         // initially we set the toolbar exp to gone
         toolbar.setVisibility(View.GONE);
         toolbarExp.setVisibility(View.GONE);
