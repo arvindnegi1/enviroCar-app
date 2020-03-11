@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 
     Copyright (C) 2013 - 2019 the enviroCar community
 
@@ -79,10 +78,7 @@
     <string name="general_error_please_report">General Track Error - Please report this issue</string>
 
 
-
     <string name="ok" translatable="false">OK</string>
-
-
 
 
     <string name="driving">Driving</string>
@@ -100,7 +96,6 @@
     <!-- ################# -->
     <!-- Sign In / Sign Up -->
     <!-- ################# -->
-
 
 
     <!-- ################# -->
@@ -178,4 +173,7 @@
     <!--    Permissions    -->
     <!-- ################# -->
     <string name="permissions_request_dialog">The enviroCar App requires additional permissions for recording tracks, which you can confirm manually in the following. This includes the exact positioning of the smartphone, so that collected parameters of a journey can be spatially located, and the write permission to the external memory, so that logs can be generated and transmitted via the "Report issue" function.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

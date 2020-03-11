@@ -40,6 +40,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -208,6 +211,12 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         toolbarExp.setVisibility(View.GONE);
         contentView.setVisibility(View.GONE);
         downloadView.setVisibility(View.INVISIBLE);
+
+        //add root fragment
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.activity_car_selection_fragment,new Manufacturer_fragment());
+        fragmentTransaction.commit();
 
         RxToolbar.itemClicks(toolbar)
                 .filter(continueWhenFormIsCorrect())
