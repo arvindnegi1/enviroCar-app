@@ -25,9 +25,9 @@ public class Manufacturer_fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_manufacturer_fragment, container, false);
         ButterKnife.bind(this,view);
-        int Res[]={R.drawable.img_envirocar_logo,R.drawable.img_envirocar_logo,R.drawable.img_envirocar_logo,
-                R.drawable.img_envirocar_logo,R.drawable.img_envirocar_logo};
-        String items[] = new String[]{"AUDI","BMW","JAGUAR","HYUNDAI","MARUTI SUZUKI"};
+        int Res[]={R.drawable.bmw_logo,R.drawable.alpina_logo,R.drawable.audi_logo,
+                R.drawable.merce_logo,R.drawable.keinath_logo,R.drawable.gumpert_logo,R.drawable.volkswagen_logo};
+        String items[] = new String[]{"BMW","ALPINA","AUDI","MERCEDES","KEINATH","GUMPERT","VOLKSWAGEN"};
         CustomGridAdapter customGridAdapter = new CustomGridAdapter(getContext(),items,Res);
         gridView.setAdapter(customGridAdapter);
         return view;

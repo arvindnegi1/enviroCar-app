@@ -18,7 +18,7 @@
             android:background="#C8C2C1"/>
         <GridView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:numColumns="3"
             android:id="@+id/fragment_manufacturer_grid"
             android:layout_marginTop="10dp"/>
