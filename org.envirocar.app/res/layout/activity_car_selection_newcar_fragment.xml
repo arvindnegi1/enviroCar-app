@@ -89,7 +89,16 @@
            <androidx.recyclerview.widget.RecyclerView
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:id="@+id/recycler_view"/>
+               android:id="@+id/recycler_view"
+               android:layout_marginLeft="10dp"/>
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_search_black_24dp"
+               android:hint="Search car manufacturer"
+                android:textAlignment="center"
+                android:id="@+id/autoComplete"
+                android:layout_gravity="center"/>
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

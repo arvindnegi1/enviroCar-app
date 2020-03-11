@@ -195,8 +195,14 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        String items[] = new String[]{"asd","bsd","csd"};
-        recyclerView.setAdapter(new CustomAdapter(getContext(),items));
+        String items[] = new String[]{"Manufacturer","Model","Year","Fuel","Engine","Power"};
+        int Res[] = {R.drawable.ic_manufacturer,
+                R.drawable.ic_directions_car_black_24dp,
+                R.drawable.ic_date_24dp,
+                R.drawable.ic_gas,
+                R.drawable.ic_engine,
+                R.drawable.power};
+        recyclerView.setAdapter(new CustomAdapter(getContext(),items,Res));
         // initially we set the toolbar exp to gone
         toolbar.setVisibility(View.GONE);
         toolbarExp.setVisibility(View.GONE);

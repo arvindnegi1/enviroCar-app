@@ -22,9 +22,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     Context mcontext;
     String items[];
-    public CustomAdapter(Context mcontext,String items[]) {
+    int Res[];
+    public CustomAdapter(Context mcontext,String items[],int Res[]) {
         this.mcontext = mcontext;
         this.items = items;
+        this.Res = Res;
     }
     @NonNull
     @Override
@@ -37,10 +39,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.CustomViewHolder holder, int position) {
         holder.textView.setText(items[position]);
+        holder.floatingActionButton.setImageResource(Res[position]);
         holder.floatingActionButton.setOnClickListener(view ->{ holder.fabProgressCircle.setVisibility(View.VISIBLE);
             holder.fabProgressCircle.show();
             Toast.makeText(mcontext,""+items[position],Toast.LENGTH_SHORT).show();
+            holder.view.setBackgroundColor(mcontext.getResources().getColor(R.color.fab_orange_light));
         });
+
     }
 
     @Override
@@ -55,6 +60,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView textView;
         @BindView(R.id.prog)
         FABProgressCircle fabProgressCircle;
+        @BindView(R.id.bottomBrand)
+        View view;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
