@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.github.jorgecastilloprz.FABProgressCircle
+            android:id="@+id/prog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/fab_margin_16"
+            android:paddingTop="@dimen/fab_margin_download_button_top"
+            >
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/brand"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:backgroundTint="@color/blue_light_cario"
+                android:src="@drawable/ic_cloud_download_white_24dp"
+                tools:elevation="12dp"
+                tools:rippleColor="@color/cario_color_primary_dark"/>
+
+        </com.github.jorgecastilloprz.FABProgressCircle>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="brand"
+            android:layout_marginLeft="50dp"
+            android:id="@+id/laytext"
+            android:layout_below="@id/prog"
+            android:textAlignment="textEnd"
+            />
+    </RelativeLayout>
+</LinearLayout>
