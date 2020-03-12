@@ -181,6 +181,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     CarNew readyCar;
     String manufacturSelected1 = "";
     Bundle manufacturer_args;
+    private String selectedManufacturer;
 
 
     @Nullable

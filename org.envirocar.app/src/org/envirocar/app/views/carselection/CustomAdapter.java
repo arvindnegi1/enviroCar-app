@@ -44,6 +44,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             holder.fabProgressCircle.show();
             Toast.makeText(mcontext,""+items[position],Toast.LENGTH_SHORT).show();
             holder.view.setBackgroundColor(mcontext.getResources().getColor(R.color.fab_orange_light));
+            holder.fabProgressCircle.beginFinalAnimation();
         });
 
     }

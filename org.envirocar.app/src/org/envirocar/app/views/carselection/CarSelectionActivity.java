@@ -331,4 +331,7 @@ public class CarSelectionActivity extends BaseInjectorActivity implements CarSel
             return Math.min(2, super.getCount());
         }
     }
+    public  void setSelectedManufacturer(){
+
+    }
 }

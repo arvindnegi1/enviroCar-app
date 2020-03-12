@@ -6,13 +6,16 @@
 <ImageView
     android:layout_width="100dp"
     android:layout_height="40dp"
+    android:padding="5dp"
     android:src="@drawable/img_envirocar_logo"
+    android:background="@drawable/girdbox"
     android:id="@+id/custom_grid_image"
     android:layout_marginTop="10dp"/>
     <TextView
         android:layout_width="100dp"
         android:layout_height="15dp"
         android:textSize="12dp"
+        android:textColor="#000000"
         android:textAlignment="center"
         android:text="Manufacture"
         android:id="@+id/custom_grid_text"/>
