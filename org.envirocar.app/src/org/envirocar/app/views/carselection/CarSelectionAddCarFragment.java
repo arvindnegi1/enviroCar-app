@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.BlockedNumberContract;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -177,6 +178,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
     CarNew readyCar;
     String manufacturSelected1 = "";
+    Bundle manufacturer_args;
 
 
     @Nullable
@@ -194,7 +196,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             hideKeyboard(v);
             closeThisFragment();
         });
-
+        manufacturer_args = new Bundle();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -213,10 +215,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         downloadView.setVisibility(View.INVISIBLE);
 
         //add root fragment
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity_car_selection_fragment,new Manufacturer_fragment());
-        fragmentTransaction.commit();
 
         RxToolbar.itemClicks(toolbar)
                 .filter(continueWhenFormIsCorrect())
@@ -261,6 +259,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
        // dispatchRemoteSensors();
         showManufacturer();
 
+
         //initFocusChangedListener();
         initWatcher();
         return view;
@@ -290,6 +289,16 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                             manufacturerText.setAdapter(asSortedAdapter(getContext(),mManufacturerNames));
                             downloadView.setVisibility(View.INVISIBLE);
                         });
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        Manufacturer_fragment manufacturer_fragment = new Manufacturer_fragment();
+                        ArrayList<String> mname = new ArrayList<>();
+                        mname.addAll(mManufacturerNames);
+                        manufacturer_args.putStringArrayList("manu",mname);
+                        manufacturer_fragment.setArguments(manufacturer_args);
+                        fragmentTransaction.replace(R.id.activity_car_selection_fragment,manufacturer_fragment);
+                        fragmentTransaction.commit();
+
 
                     }
 
