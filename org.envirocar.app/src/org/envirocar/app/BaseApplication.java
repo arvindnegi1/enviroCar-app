@@ -62,7 +62,7 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 @AcraCore(buildConfigClass = BuildConfig.class, reportSenderFactoryClasses = ACRASenderFactory.class)
 public class BaseApplication extends Application {
-    private static final Logger LOG = Logger.getLogger(BaseApplication.class);
+    private static Logger LOG = Logger.getLogger(BaseApplication.class);
 
     BaseApplicationComponent baseApplicationComponent;
     protected BroadcastReceiver mScreenReceiver;
@@ -97,6 +97,8 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // hack
+        Logger.addFileHandlerLocation(getFilesDir().getAbsolutePath());
 
         Mapbox.getInstance(this, "");
 
