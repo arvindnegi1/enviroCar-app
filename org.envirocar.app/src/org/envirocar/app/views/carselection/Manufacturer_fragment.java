@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.envirocar.app.R;
 
@@ -43,6 +45,13 @@ public class Manufacturer_fragment extends Fragment {
             Collections.sort(mmanufacturernames);
         }
         listView.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,mmanufacturernames));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedManufacturer = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getContext(),""+selectedManufacturer,Toast.LENGTH_SHORT).show();
+            }
+        });
         gridView.setAdapter(customGridAdapter);
         return view;
     }

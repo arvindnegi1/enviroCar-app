@@ -151,6 +151,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     protected AutoCompleteTextView powerText;
     @BindView(R.id.activity_car_selection_layout_fullDetail)
     protected Button full;
+    @BindView(R.id.autoComplete)
+    AutoCompleteTextView autoCompleteTextView;
 
     @Inject
     protected DAOProvider daoProvider;
@@ -287,7 +289,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                         mainThreadWorker.schedule(() -> {
                            dispose();
                             manufacturerText.setAdapter(asSortedAdapter(getContext(),mManufacturerNames));
-                            downloadView.setVisibility(View.INVISIBLE);
+                            autoCompleteTextView.setAdapter(asSortedAdapter(getContext(),mManufacturerNames));
+                            downloadView.setVisibility(View.GONE);
                         });
                         FragmentManager fragmentManager = getChildFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
