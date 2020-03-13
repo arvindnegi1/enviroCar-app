@@ -10,12 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_search_black_24dp"
+            android:hint="Search car manufacturer"
+            android:textAlignment="center"
+            android:background="@drawable/girdbox"
+            android:id="@+id/autoComplete"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="Popular Manufacturer"
             android:textAlignment="center"
-            android:background="#F1EAE9"/>
+            android:textColor="@color/white"
+            android:background="@color/cario_color_primary_dark"
+            android:layout_marginTop="20dp"/>
         <GridView
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -28,7 +43,8 @@
             android:text="All Manufacturer"
             android:textAlignment="center"
             android:layout_marginTop="10dp"
-            android:background="#F1EAE9 "/>
+            android:textColor="@color/white"
+            android:background="@color/cario_color_primary_dark"/>
 
         <ListView
             android:layout_width="match_parent"

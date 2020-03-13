@@ -26,7 +26,7 @@
 
     <include layout="@layout/envirocar_toolbar" />
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:id="@+id/activity_car_selection_newcar_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -67,14 +67,7 @@
                android:layout_height="wrap_content"
                android:id="@+id/recycler_view"
                android:layout_marginLeft="10dp"/>
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_search_black_24dp"
-               android:hint="Search car manufacturer"
-                android:textAlignment="center"
-                android:id="@+id/autoComplete"
-                android:layout_gravity="center"/>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -259,5 +252,5 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </LinearLayout>

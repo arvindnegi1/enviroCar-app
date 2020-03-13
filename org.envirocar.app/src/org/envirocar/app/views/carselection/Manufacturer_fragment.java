@@ -1,5 +1,6 @@
 package org.envirocar.app.views.carselection;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,6 +34,8 @@ public class Manufacturer_fragment extends Fragment {
     GridView gridView;
     @BindView(R.id.fragment_manufacturer_list)
     ListView listView;
+    @BindView(R.id.autoComplete)
+    AutoCompleteTextView autoCompleteTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,24 +52,37 @@ public class Manufacturer_fragment extends Fragment {
             mmanufacturernames = getArguments().getStringArrayList("manu");
             Collections.sort(mmanufacturernames);
         }
-        listView.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, mmanufacturernames));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, mmanufacturernames);
+        listView.setAdapter(adapter);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                String selected = adapterView.getItemAtPosition(i).toString();
+                jumpToFragment(selected);
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedManufacturer = adapterView.getItemAtPosition(i).toString();
                 Toast.makeText(getContext(), "" + selectedManufacturer, Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ModelFragment modelFragment = new ModelFragment();
-                Bundle args = new Bundle();
-                args.putString("selected",selectedManufacturer);
-                modelFragment.setArguments(args);
-                fragmentTransaction.replace(R.id.activity_car_selection_fragment,modelFragment);
-                fragmentTransaction.commit();
+               jumpToFragment(selectedManufacturer);
             }
         });
         gridView.setAdapter(customGridAdapter);
         return view;
     }
-
+void jumpToFragment(String selected) {
+    FragmentManager fragmentManager = getFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    ModelFragment modelFragment = new ModelFragment();
+    Bundle args = new Bundle();
+    args.putString("selected",selected);
+    modelFragment.setArguments(args);
+    fragmentTransaction.replace(R.id.activity_car_selection_fragment,modelFragment);
+    fragmentTransaction.commit();
+}
 }
