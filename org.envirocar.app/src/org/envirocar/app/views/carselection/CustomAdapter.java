@@ -43,7 +43,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         holder.floatingActionButton.setOnClickListener(view ->{ holder.fabProgressCircle.setVisibility(View.VISIBLE);
             holder.fabProgressCircle.show();
             Toast.makeText(mcontext,""+items[position],Toast.LENGTH_SHORT).show();
-            holder.view.setBackgroundColor(mcontext.getResources().getColor(R.color.fab_orange_light));
+            holder.view.setBackgroundColor(mcontext.getResources().getColor(R.color.blue_dark_cario));
             holder.fabProgressCircle.beginFinalAnimation();
         });
 

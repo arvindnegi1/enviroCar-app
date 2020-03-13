@@ -26,30 +26,6 @@
 
     <include layout="@layout/envirocar_toolbar" />
 
-    <LinearLayout
-        android:id="@+id/activity_car_selection_newcar_toolbar_exp"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/blue_dark_cario"
-        android:visibility="visible">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:gravity="bottom"
-                android:text="@string/car_selection_enter_info"
-                android:textColor="@color/white_cario"
-                android:textSize="13sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/activity_car_selection_newcar_content_view"
         android:layout_width="match_parent"
@@ -60,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="5dp">
 
             <LinearLayout
                 android:id="@+id/activity_car_selection_newcar_download_layout"

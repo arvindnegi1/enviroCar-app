@@ -118,8 +118,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
 
     @BindView(R.id.envirocar_toolbar)
     protected Toolbar toolbar;
-    @BindView(R.id.activity_car_selection_newcar_toolbar_exp)
-    protected View toolbarExp;
     @BindView(R.id.activity_car_selection_newcar_content_view)
     protected View contentView;
     @BindView(R.id.activity_car_selection_newcar_download_layout)
@@ -213,9 +211,8 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         recyclerView.setAdapter(new CustomAdapter(getContext(),items,Res));
         // initially we set the toolbar exp to gone
         toolbar.setVisibility(View.GONE);
-        toolbarExp.setVisibility(View.GONE);
         contentView.setVisibility(View.GONE);
-        downloadView.setVisibility(View.INVISIBLE);
+        downloadView.setVisibility(View.GONE);
 
         //add root fragment
 
@@ -328,8 +325,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         LOG.info("onResume()");
         super.onResume();
         ECAnimationUtils.animateShowView(getContext(), toolbar,
-                R.anim.translate_slide_in_top_fragment);
-        ECAnimationUtils.animateShowView(getContext(), toolbarExp,
                 R.anim.translate_slide_in_top_fragment);
         ECAnimationUtils.animateShowView(getContext(), contentView,
                 R.anim.translate_slide_in_bottom_fragment);
@@ -833,8 +828,6 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
         // ^^
         ECAnimationUtils.animateHideView(getContext(),
                 ((CarSelectionActivity) getActivity()).overlayView, R.anim.fade_out);
-        ECAnimationUtils.animateHideView(getContext(), R.anim
-                .translate_slide_out_top_fragment, toolbar, toolbarExp);
         ECAnimationUtils.animateHideView(getContext(), contentView, R.anim
                 .translate_slide_out_bottom, () -> ((CarSelectionUiListener) getActivity()).onHideAddCarFragment());
     }
