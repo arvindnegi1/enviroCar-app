@@ -21,67 +21,62 @@ import org.envirocar.core.entity.CarNew;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class EngineFragment extends Fragment {
+public class PowerFragment extends Fragment {
 
     @BindView(R.id.autoComplete)
     AutoCompleteTextView autoCompleteTextView;
-    @BindView(R.id.engine_fragment_list)
+    @BindView(R.id.power_fragment_list)
     ListView listView;
 
-    private Map<Integer,List<CarNew>> mModelYearFuelEngineToPower = new HashMap<>();
+    private Map<Integer,List<CarNew>> mModelPowerToCar = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_engine, container, false);
+        View view = inflater.inflate(R.layout.fragment_power, container, false);
         ButterKnife.bind(this,view);
         if (getArguments() != null) {
             ArrayList<CarNew> carNews = new ArrayList<>();
-            carNews = (ArrayList<CarNew>) getArguments().getSerializable("engine");
-            mModelYearFuelEngineToPower.clear();
-            Set<Integer> engineSet = new LinkedHashSet<>();
-            List<Integer> engine = new ArrayList<>();
+            carNews = (ArrayList<CarNew>) getArguments().getSerializable("power");
+            List<Integer> power = new ArrayList<>();
+            mModelPowerToCar.clear();
             for(CarNew carNew : carNews) {
-                engineSet.add(carNew.getEngineCapacity());
-                if (!mModelYearFuelEngineToPower.containsKey(carNew.getEngineCapacity()))
-                    mModelYearFuelEngineToPower.put(carNew.getEngineCapacity(), new ArrayList<>());
-                mModelYearFuelEngineToPower.get(carNew.getEngineCapacity()).add(carNew);
+                power.add(carNew.getPower());
+                if (!mModelPowerToCar.containsKey(carNew.getPower()))
+                    mModelPowerToCar.put(carNew.getPower(), new ArrayList<>());
+                mModelPowerToCar.get(carNew.getPower()).add(carNew);
             }
-            engine.addAll(engineSet);
-            ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(getContext(),android.R.layout.simple_dropdown_item_1line,engine);
+            ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(getContext(),android.R.layout.simple_dropdown_item_1line,power);
             listView.setAdapter(arrayAdapter);
             autoCompleteTextView.setAdapter(arrayAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Integer engineSelected = Integer.parseInt(adapterView.getItemAtPosition(i).toString());
-                    jumpToFragment(engineSelected);
+                    Integer powerSelected = Integer.parseInt(adapterView.getItemAtPosition(i).toString());
+                    jumpToFragment(powerSelected);
                 }
             });
         }
         return view;
     }
-
-    void jumpToFragment(Integer engineSelected) {
+    void jumpToFragment(Integer powerSelected) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        PowerFragment powerFragment = new PowerFragment();
-        List<CarNew> carNews = mModelYearFuelEngineToPower.get(engineSelected);
+        ReadyCar readyCar = new ReadyCar();
+        List<CarNew> carNews = mModelPowerToCar.get(powerSelected);
         ArrayList<CarNew> arrayList = new ArrayList<>(carNews.size());
         arrayList.addAll(carNews);
         Bundle args = new Bundle();
-        args.putSerializable("power",arrayList);
-        powerFragment.setArguments(args);
-        fragmentTransaction.replace(R.id.activity_car_selection_fragment,powerFragment);
+        args.putSerializable("readyCar",arrayList);
+        readyCar.setArguments(args);
+        fragmentTransaction.replace(R.id.activity_car_selection_fragment,readyCar);
         fragmentTransaction.commit();
     }
 }

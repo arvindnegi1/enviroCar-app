@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.carselection.ReadyCar">
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:orientation="vertical">
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="100dp">
+         <View
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:id="@+id/top"
+             android:background="@color/blue_light_cario"/>
+         <com.google.android.material.card.MaterialCardView
+             android:layout_width="200dp"
+             android:layout_height="100dp"
+             android:layout_marginLeft="80dp"
+             app:cardElevation="20dp"
+             app:cardCornerRadius="10dp"
+             android:layout_marginTop="30dp"
+             android:backgroundTint="@color/cario_color_primary"
+             >
+             <ImageView
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:src="@drawable/cartop"/>
+         </com.google.android.material.card.MaterialCardView>
+     </RelativeLayout>
+     <androidx.cardview.widget.CardView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_margin="20dp"
+         android:elevation="30dp"
+         app:cardCornerRadius="20dp"
+         android:backgroundTint="@color/white_cario_transparent">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Car Details"
+             android:textAlignment="center"
+             android:textColor="@color/cario_color_primary"
+             android:textSize="18dp"/>
+
+             <androidx.core.widget.NestedScrollView
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"
+                 android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Vehicle Name :"
+                     android:id="@+id/name"
+                     android:textColor="#000000"
+                     android:layout_marginLeft="40dp"
+                     android:textSize="16dp"/>
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="14dp"
+                     android:id="@+id/namedata"
+                     android:text="Name data"
+                     android:textAlignment="textEnd"
+                     android:layout_marginRight="30dp"/>
+             </LinearLayout>
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"
+                 android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Allotment date :"
+                     android:id="@+id/allotment"
+                     android:textColor="#000000"
+                     android:layout_marginLeft="40dp"
+                     android:textSize="16dp"/>
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="14dp"
+                     android:id="@+id/allotmentdata"
+                     android:text="Name data"
+                     android:textAlignment="textEnd"
+                     android:layout_marginRight="30dp"/>
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"
+                 android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Power :"
+                     android:id="@+id/power"
+                     android:textColor="#000000"
+                     android:layout_marginLeft="40dp"
+                     android:textSize="16dp"/>
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="14dp"
+                     android:id="@+id/powerdata"
+                     android:text="Name data"
+                     android:textAlignment="textEnd"
+                     android:layout_marginRight="30dp"/>
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"
+                 android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Engine :"
+                     android:textColor="#000000"
+                     android:id="@+id/engine"
+                     android:layout_marginLeft="40dp"
+                     android:textSize="16dp"/>
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="14dp"
+                     android:id="@+id/enginedata"
+                     android:text="Name data"
+                     android:textAlignment="textEnd"
+                     android:layout_marginRight="30dp"/>
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"
+                 android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Axles :"
+                     android:textColor="#000000"
+                     android:id="@+id/axles"
+                     android:layout_marginLeft="40dp"
+                     android:textSize="16dp"/>
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="14dp"
+                     android:id="@+id/axlesdata"
+                     android:text="Name data"
+                     android:textAlignment="textEnd"
+                     android:layout_marginRight="30dp"/>
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"
+                 android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Mass : "
+                     android:textColor="#000000"
+                     android:id="@+id/mass"
+                     android:layout_marginLeft="40dp"
+                     android:textSize="16dp"/>
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="14dp"
+                     android:id="@+id/massdata"
+                     android:text="Name data"
+                     android:textAlignment="textEnd"
+                     android:layout_marginRight="30dp"/>
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="20dp"
+                 android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Seats"
+                     android:id="@+id/seats"
+                     android:textColor="#000000"
+                     android:layout_marginLeft="40dp"
+                     android:textSize="16dp"/>
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="14dp"
+                     android:id="@+id/seatsdata"
+                     android:text="Name data"
+                     android:textAlignment="textEnd"
+                     android:layout_marginRight="30dp"/>
+             </LinearLayout>
+         </LinearLayout>
+             </androidx.core.widget.NestedScrollView>
+         </LinearLayout>
+     </androidx.cardview.widget.CardView>
+ </LinearLayout>
+</FrameLayout>
