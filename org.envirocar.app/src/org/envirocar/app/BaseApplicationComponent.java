@@ -37,6 +37,8 @@ import org.envirocar.app.services.autoconnect.AutoRecordingComponent;
 import org.envirocar.app.services.autoconnect.AutoRecordingModule;
 import org.envirocar.app.views.carselection.CarSelectionActivity;
 import org.envirocar.app.views.carselection.CarSelectionAddCarFragment;
+import org.envirocar.app.views.carselection.ModelFragment;
+import org.envirocar.app.views.carselection.YearFragment;
 import org.envirocar.app.views.dashboard.DashboardFragment;
 import org.envirocar.app.views.logbook.LogbookActivity;
 import org.envirocar.app.views.logbook.LogbookAddFuelingFragment;
@@ -111,6 +113,8 @@ public interface BaseApplicationComponent {
     void inject(TrackListLocalCardFragment fragment);
     void inject(TrackListRemoteCardFragment fragment);
     void inject(CarSelectionAddCarFragment carSelectionAddCarFragment);
+    void inject(ModelFragment modelFragment);
+    void inject(YearFragment yearFragment);
     void inject(LogbookAddFuelingFragment logbookAddFuelingFragment);
     void inject(OBDSelectionFragment obdSelectionFragment);
     void inject(OthersFragment othersFragment);

@@ -25,6 +25,7 @@ import org.envirocar.app.R;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +37,8 @@ public class Manufacturer_fragment extends Fragment {
     ListView listView;
     @BindView(R.id.autoComplete)
     AutoCompleteTextView autoCompleteTextView;
+    // manufid
+    HashMap<String,String> hsn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,13 +51,16 @@ public class Manufacturer_fragment extends Fragment {
         String items[] = new String[]{"BMW", "ALPINA", "AUDI", "MERCEDES", "KEINATH", "GUMPERT", "VOLKSWAGEN", "OPEL", "PORSHCE"};
         CustomGridAdapter customGridAdapter = new CustomGridAdapter(getContext(), items, Res);
         ArrayList<String> mmanufacturernames = new ArrayList<>();
+
         if (getArguments() != null) {
             mmanufacturernames = getArguments().getStringArrayList("manu");
+            hsn = (HashMap<String, String>) getArguments().getSerializable("hsn_map");
             Collections.sort(mmanufacturernames);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, mmanufacturernames);
         listView.setAdapter(adapter);
         autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -80,7 +86,8 @@ void jumpToFragment(String selected) {
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     ModelFragment modelFragment = new ModelFragment();
     Bundle args = new Bundle();
-    args.putString("selected",selected);
+    String manufcar = hsn.get(selected);
+    args.putString("manufid",manufcar);
     modelFragment.setArguments(args);
     fragmentTransaction.replace(R.id.activity_car_selection_fragment,modelFragment);
     fragmentTransaction.commit();

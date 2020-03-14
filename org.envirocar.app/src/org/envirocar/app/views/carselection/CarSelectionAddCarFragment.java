@@ -68,6 +68,7 @@ import org.envirocar.core.logging.Logger;
 import org.envirocar.remote.service.CarServiceNew;
 import org.envirocar.remote.service.EnviroCarService;
 
+import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -170,7 +171,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Map<Integer,List<CarNew>> mModelPowerToCar = new HashMap<>();
     private Map<String,List<CarNew>> mModelToYearToFuel = new HashMap<>();
     private Map<String,List<String>> mModelYear = new HashMap<>();
-    private Map<String,String> hsn = new ConcurrentHashMap<>();
+    private HashMap<String,String> hsn = new HashMap<>();
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
@@ -293,6 +294,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                         ArrayList<String> mname = new ArrayList<>();
                         mname.addAll(mManufacturerNames);
                         manufacturer_args.putStringArrayList("manu",mname);
+                        manufacturer_args.putSerializable("hsn_map",hsn);
                         manufacturer_fragment.setArguments(manufacturer_args);
                         fragmentTransaction.replace(R.id.activity_car_selection_fragment,manufacturer_fragment);
                         fragmentTransaction.commit();
