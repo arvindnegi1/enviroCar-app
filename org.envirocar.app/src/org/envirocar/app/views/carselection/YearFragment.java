@@ -5,10 +5,13 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
@@ -63,14 +66,25 @@ public class YearFragment extends BaseInjectorFragment {
         if (getArguments() != null) {
             ArrayList<String> selected = new ArrayList<>();
             selected = getArguments().getStringArrayList("manufacturerCarYear");
-            //String temp="";
             String manufid = getArguments().getString("manufid");
             for(String it : selected) {
-              // temp+=it;
                 getAllCarNew(manufid,it);
             }
-            //Toast.makeText(getContext(),""+temp+manufid,Toast.LENGTH_SHORT).show();
         }
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String yearSelected = adapterView.getItemAtPosition(i).toString();
+                jumpToFragment(yearSelected);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String yearSelected = adapterView.getItemAtPosition(i).toString();
+                jumpToFragment(yearSelected);
+            }
+        });
         return view;
     }
 
@@ -122,5 +136,19 @@ public class YearFragment extends BaseInjectorFragment {
                         Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();});
                     }
                 }));
+    }
+
+    void jumpToFragment(String yearSelected) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FuelFragment fuelFragment = new FuelFragment();
+        Bundle args = new Bundle();
+        List<CarNew> carNews = mModelToYearToFuel.get(yearSelected);
+        ArrayList<CarNew> arrayList = new ArrayList<>(carNews.size());
+        arrayList.addAll(carNews);
+        args.putSerializable("yearSelected",arrayList);
+        fuelFragment.setArguments(args);
+        fragmentTransaction.replace(R.id.activity_car_selection_fragment,fuelFragment);
+        fragmentTransaction.commit();
     }
 }
