@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +39,7 @@ public class Manufacturer_fragment extends Fragment {
     @BindView(R.id.autoComplete)
     AutoCompleteTextView autoCompleteTextView;
     // manufid
-    HashMap<String,String> hsn;
+    Map<String,String> hsn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +55,7 @@ public class Manufacturer_fragment extends Fragment {
 
         if (getArguments() != null) {
             mmanufacturernames = getArguments().getStringArrayList("manu");
-            hsn = (HashMap<String, String>) getArguments().getSerializable("hsn_map");
+            hsn = (Map<String, String>) getArguments().getSerializable("hsn_map");
             Collections.sort(mmanufacturernames);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, mmanufacturernames);
