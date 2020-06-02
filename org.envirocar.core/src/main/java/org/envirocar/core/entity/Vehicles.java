@@ -1,11 +1,11 @@
 package org.envirocar.core.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
 
 @Entity(tableName = "vehicles",
 foreignKeys ={ @ForeignKey(entity = Manufacturers.class,
@@ -14,14 +14,15 @@ childColumns = "manufacturer_id"),
         @ForeignKey(entity = PowerSource.class,
 parentColumns = "id",
 childColumns = "power_source_id")
-})
+},
+primaryKeys = {"manufacturer_id","id"})
 public class Vehicles {
 
-    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "manufacturer_id")
     String manufacturer_id;
 
-    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "id")
     String id;
 
@@ -32,7 +33,7 @@ public class Vehicles {
     String commerical_name;
 
     @ColumnInfo(name = "allotment_date")
-    Date allotment_date;
+    String allotment_date;
 
     @ColumnInfo(name = "category")
     String category;
@@ -93,11 +94,11 @@ public class Vehicles {
         this.commerical_name = commerical_name;
     }
 
-    public Date getAllotment_date() {
+    public String getAllotment_date() {
         return allotment_date;
     }
 
-    public void setAllotment_date(Date allotment_date) {
+    public void setAllotment_date(String allotment_date) {
         this.allotment_date = allotment_date;
     }
 

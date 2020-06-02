@@ -21,6 +21,7 @@ package org.envirocar.app.views.carselection;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,9 +48,11 @@ import org.envirocar.app.handler.preferences.CarPreferenceHandler;
 import org.envirocar.app.handler.DAOProvider;
 import org.envirocar.app.injection.BaseInjectorFragment;
 import org.envirocar.app.BaseApplicationComponent;
+import org.envirocar.app.services.CarDataBase;
 import org.envirocar.app.views.utils.ECAnimationUtils;
 import org.envirocar.core.entity.Car;
 import org.envirocar.core.entity.CarImpl;
+import org.envirocar.core.entity.Manufacturers;
 import org.envirocar.core.logging.Logger;
 
 import java.util.AbstractList;
@@ -73,12 +77,14 @@ import butterknife.OnTextChanged;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -132,6 +138,7 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
     private Map<String, Set<String>> mCarToModelMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> mModelToYear = new ConcurrentHashMap<>();
     private Map<Pair<String, String>, Set<String>> mModelToCCM = new ConcurrentHashMap<>();
+    private CarDataBase carDataBase;
 
 
     @Nullable
@@ -150,7 +157,22 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             closeThisFragment();
         });
 
+        carDataBase = CarDataBase.getDatabase(getContext());
+        Single<List<Manufacturers>> getManu = carDataBase.carNewDAO().getAll();
+        getManu.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<Manufacturers>>() {
+                    @Override
+                    public void onSuccess(List<Manufacturers> manufacturers) {
+                        Toast.makeText(getContext(),"hello"+manufacturers.get(1).getName(),Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("asd",e.getMessage());
+                        Toast.makeText(getContext(),""+(e.getMessage()),Toast.LENGTH_LONG).show();
+                    }
+                });
         // initially we set the toolbar exp to gone
         toolbar.setVisibility(View.GONE);
         toolbarExp.setVisibility(View.GONE);

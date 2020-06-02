@@ -4,10 +4,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import io.reactivex.annotations.NonNull;
+
 @Entity(tableName = "power_sources")
 public class PowerSource {
 
     @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "id")
     int id;
 
