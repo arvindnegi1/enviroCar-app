@@ -20,6 +20,7 @@ package org.envirocar.app.views.carselection;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -53,8 +54,15 @@ import org.envirocar.app.views.utils.ECAnimationUtils;
 import org.envirocar.core.entity.Car;
 import org.envirocar.core.entity.CarImpl;
 import org.envirocar.core.entity.Manufacturers;
+import org.envirocar.core.entity.TermsOfUse;
+import org.envirocar.core.entity.Vehicles;
 import org.envirocar.core.logging.Logger;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +72,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -157,6 +166,27 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
             closeThisFragment();
         });
 
+//        AssetManager assetManager = getContext().getAssets();
+//        InputStream is = null;
+//        try {
+//            is = assetManager.open("databases/vehicles.csv");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        BufferedReader reader = null;
+//        reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+//        String line = "";
+//        StringTokenizer st = null;
+//        try {
+//
+//            while ((line = reader.readLine()) != null) {
+//                st = new StringTokenizer(line, ",");
+//                st.nextToken();
+//                Toast.makeText(getContext(),""+st.nextToken(), Toast.LENGTH_SHORT).show();
+//            }
+//        } catch (IOException e) {
+//            Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
+//        }
         carDataBase = CarDataBase.getDatabase(getContext());
         Single<List<Manufacturers>> getManu = carDataBase.carNewDAO().getAll();
         getManu.subscribeOn(Schedulers.io())
@@ -164,7 +194,10 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                 .subscribeWith(new DisposableSingleObserver<List<Manufacturers>>() {
                     @Override
                     public void onSuccess(List<Manufacturers> manufacturers) {
-                        Toast.makeText(getContext(),"hello"+manufacturers.get(1).getName(),Toast.LENGTH_SHORT).show();
+                        if (!manufacturers.isEmpty())
+                        Toast.makeText(getContext(),"hello"+manufacturers.get(0).getId(),Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(getContext(),"some error",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -173,7 +206,23 @@ public class CarSelectionAddCarFragment extends BaseInjectorFragment {
                         Toast.makeText(getContext(),""+(e.getMessage()),Toast.LENGTH_LONG).show();
                     }
                 });
-        // initially we set the toolbar exp to gone
+//        carDataBase = CarDataBase.getDatabase(getContext());
+//        Single<List<Vehicles>> getManu = carDataBase.carNewDAO().getAllv();
+//        getManu.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(new DisposableSingleObserver<List<Vehicles>>() {
+//                    @Override
+//                    public void onSuccess(List<Vehicles> vehicles) {
+//                        Toast.makeText(getContext(),"hello"+vehicles.get(2048).getCommerical_name(),Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.i("asd",e.getMessage());
+//                        Toast.makeText(getContext(),""+(e.getMessage()),Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//                initially we set the toolbar exp to gone
         toolbar.setVisibility(View.GONE);
         toolbarExp.setVisibility(View.GONE);
         contentView.setVisibility(View.GONE);

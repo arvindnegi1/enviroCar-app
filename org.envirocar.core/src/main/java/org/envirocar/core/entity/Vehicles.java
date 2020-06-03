@@ -8,13 +8,6 @@ import androidx.room.PrimaryKey;
 
 
 @Entity(tableName = "vehicles",
-foreignKeys ={ @ForeignKey(entity = Manufacturers.class,
-parentColumns = "id",
-childColumns = "manufacturer_id"),
-        @ForeignKey(entity = PowerSource.class,
-parentColumns = "id",
-childColumns = "power_source_id")
-},
 primaryKeys = {"manufacturer_id","id"})
 public class Vehicles {
 
@@ -29,11 +22,13 @@ public class Vehicles {
     @ColumnInfo(name = "trade_name")
     String trade;
 
-    @ColumnInfo(name = "commerical_name")
+    @ColumnInfo(name = "commercial_name")
     String commerical_name;
+
 
     @ColumnInfo(name = "allotment_date")
     String allotment_date;
+
 
     @ColumnInfo(name = "category")
     String category;
@@ -41,40 +36,44 @@ public class Vehicles {
     @ColumnInfo(name = "bodywork")
     String bodywork;
 
+
     @ColumnInfo(name = "power_source_id")
-    int power_source_id;
+    Integer power_source_id;
+
 
     @ColumnInfo(name = "power")
-    int power;
+    Integer power;
 
     @ColumnInfo(name = "engine_capacity")
-    String engine_capacity;
+    Integer engine_capacity;
 
     @ColumnInfo(name = "axles")
-    int axles;
+    Integer axles;
 
     @ColumnInfo(name = "powered_axles")
-    int powered_axles;
+    Integer powered_axles;
 
     @ColumnInfo(name = "seats")
-    int seats;
+    Integer seats;
 
     @ColumnInfo(name = "maximum_mass")
-    int maximum_mass;
+    Integer maximum_mass;
 
+    @NonNull
     public String getManufacturer_id() {
         return manufacturer_id;
     }
 
-    public void setManufacturer_id(String manufacturer_id) {
+    public void setManufacturer_id(@NonNull String manufacturer_id) {
         this.manufacturer_id = manufacturer_id;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
@@ -118,59 +117,59 @@ public class Vehicles {
         this.bodywork = bodywork;
     }
 
-    public int getPower_source_id() {
+    public Integer getPower_source_id() {
         return power_source_id;
     }
 
-    public void setPower_source_id(int power_source_id) {
+    public void setPower_source_id(Integer power_source_id) {
         this.power_source_id = power_source_id;
     }
 
-    public int getPower() {
+    public Integer getPower() {
         return power;
     }
 
-    public void setPower(int power) {
+    public void setPower(Integer power) {
         this.power = power;
     }
 
-    public String getEngine_capacity() {
+    public Integer getEngine_capacity() {
         return engine_capacity;
     }
 
-    public void setEngine_capacity(String engine_capacity) {
+    public void setEngine_capacity(Integer engine_capacity) {
         this.engine_capacity = engine_capacity;
     }
 
-    public int getAxles() {
+    public Integer getAxles() {
         return axles;
     }
 
-    public void setAxles(int axles) {
+    public void setAxles(Integer axles) {
         this.axles = axles;
     }
 
-    public int getPowered_axles() {
+    public Integer getPowered_axles() {
         return powered_axles;
     }
 
-    public void setPowered_axles(int powered_axles) {
+    public void setPowered_axles(Integer powered_axles) {
         this.powered_axles = powered_axles;
     }
 
-    public int getSeats() {
+    public Integer getSeats() {
         return seats;
     }
 
-    public void setSeats(int seats) {
+    public void setSeats(Integer seats) {
         this.seats = seats;
     }
 
-    public int getMaximum_mass() {
+    public Integer getMaximum_mass() {
         return maximum_mass;
     }
 
-    public void setMaximum_mass(int maximum_mass) {
+    public void setMaximum_mass(Integer maximum_mass) {
         this.maximum_mass = maximum_mass;
     }
 }
